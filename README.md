@@ -22,17 +22,39 @@ Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/co
 
 ## Installation
 
+
 ### Standard-Browser festlegen
 
-...
+Cocoda funktioniert nicht mit dem Internet Explorer. Falls dieser Browser noch in Windows als Standardbrowser eingerichtet ist, muss stattdessen Chrome oder Firefox festgelegt werden.
+
+1. Öffnen Sie auf Ihrem Computer das Startmenü .
+2. Klicken Sie auf Systemsteuerung.
+3. Klicken Sie auf Programme -> Standardprogramme -> Standardprogramme festlegen.
+4. Wählen Sie links Chrome/Firefox aus.
+5. Klicken Sie auf "Dieses Programm als Standard festlegen".
+6. Klicken Sie auf OK.
 
 ### WinIBW-Skript installieren
 
-...
+1. Die Skript-Datei `k10_cocoda.js` nach
+`C:\Program Files (x86)\WinIBW30_K10plus\scripts\` kopieren
+
+2. In `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup.js` Folgendes eintragen, damit das Skript beim Neustart von WinWIBW geladen wird:
+
+   `pref("ibw.standardScripts.script.XX", "resource:/scripts/k10_cocoda.js");` wobei `XX` durch eine fortlaufende Nummer ersetzt werden muss.
+
+3. WinIBW neu starten
+
+
 
 ## Benutzung
 
-...
+Cocoda-Funktionen als Shortcut und/oder Eintrag in der Funktionsleiste einrichten: 
+
+Optionen -> Werkzeugleiste anpassen -> Kommandos -> Standardfunktionen -> CocodaURL -> Drag&Drop in Funktionsfeld Katalogisierung
+
+Skript per Funktionsleiste: Katalogisierung -> cocodaURL für Datensatz ausführen
+
 
 ## Entwicklung
 
