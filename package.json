@@ -1,0 +1,29 @@
+{
+  "name": "cocoda-winibw",
+  "version": "0.0.1",
+  "description": "Integration von Cocoda und WinIBW",
+  "scripts": {
+    "test": "node ./*.js",
+    "lint": "./node_modules/.bin/eslint ./*.js",
+    "fix": "./node_modules/.bin/eslint --fix ./*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gbv/cocoda-winibw.git"
+  },
+  "keywords": [
+    "code4lib",
+    "cocoda",
+    "coli-conc",
+    "winibw"
+  ],
+  "author": "Jakob Voß",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gbv/cocoda-winibw/issues"
+  },
+  "homepage": "https://github.com/gbv/cocoda-winibw#readme",
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
+}

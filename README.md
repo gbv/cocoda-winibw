@@ -36,4 +36,12 @@ Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/co
 
 ## Entwicklung
 
-Die Integration von WinIBW und Cocoda befindet sich noch im Aufbau!
+Die WinIBW-Skripte sind in JavaScript geschrieben aber nur zusammen mit einer
+K10plus-Installation von WinIBW3 lauffähig. Automatische Tests beschränken sich
+deshalb auf statische Code-Analyse:
+
+    npm test        # Überprüft JavaScript-Syntax
+    npm run lint    # Statische Code-Analyse und -Formatierung
+    npm run fix     # Code-Formatierung anpassen
+
+[![Build Status](https://travis-ci.org/gbv/cocoda-winibw.svg?branch=master)](https://travis-ci.org/gbv/cocoda-winibw)
