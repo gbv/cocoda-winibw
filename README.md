@@ -43,7 +43,7 @@ Cocoda funktioniert nicht mit dem Internet Explorer. Falls dieser Browser noch i
 
    `pref("ibw.standardScripts.script.XX", "resource:/scripts/k10_cocoda.js");` wobei `XX` durch eine fortlaufende Nummer ersetzt werden muss.
 
-3. WinIBW neu starten
+3. Um die Scripte neu einzulesen, kann man entweder die WinIBW3 neu starten (oder die Tastenkombination SHIFT+STRG+ALT+R verwenden).
 
 
 
