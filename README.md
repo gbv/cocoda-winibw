@@ -57,8 +57,9 @@ Skript per Funktionsleiste: Katalogisierung -> cocodaURL für Datensatz ausführ
 
 ## Beispieldatensätze in WinIBW
     
-    f ppn 1667549030 #2 Datensätze
+    f ppn 1667549030 #2 Datensätze, Auswahlbox
     f ppn 042954150 #1 Datensatz
+    f ppn 101991983 #BK-Normdatensatz
 
 ## Entwicklung
 
