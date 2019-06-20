@@ -11,7 +11,6 @@ function cocodaURL()
 	var alleNotationen = new Array();
 	var i=0, j=0;
 	var thePrompter = utility.newPrompter();
-	var auswahlNotation="";
 	var cocoda_url = "https://coli-conc.gbv.de/cocoda/app/?fromScheme=http%3A%2F%2Furi.gbv.de%2Fterminology%2Fbk%2F&from=http%3A%2F%2Furi.gbv.de%2Fterminology%2Fbk%2";
 	//Anzeigeformat Pica+:
 	if (application.activeWindow.getVariable("P3GPR") != "p"){
