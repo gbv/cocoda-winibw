@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "Integration von Cocoda und WinIBW",
   "scripts": {
-    "test": "node ./*.js",
-    "lint": "./node_modules/.bin/eslint ./*.js",
-    "fix": "./node_modules/.bin/eslint --fix ./*.js"
+    "test": "mocha",
+    "lint": "./node_modules/.bin/eslint ./*.js test/*.js",
+    "fix": "./node_modules/.bin/eslint --fix ./*.js test/*.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/gbv/cocoda-winibw#readme",
   "devDependencies": {
-    "eslint": "^5.16.0"
+    "eslint": "^5.16.0",
+    "mocha": "^5.2.0"
   }
 }
