@@ -22,8 +22,15 @@ describe("CocodaURL", () => {
   })
 
   it("opens Cocoda from BK record", () => {
-    mock.setRecord("002@ $0Tkv\n045A $a08.15")
+    mock.setRecord("002@ $0Tkv\n008A $akb\n045A $a08.15")
     cocodaURL()
     assert.equal(mock.openURL, "https://coli-conc.gbv.de/cocoda/app/?fromScheme=http://uri.gbv.de/terminology/bk&from=http://uri.gbv.de/terminology/bk/08.15")
   })
+
+  it("opens Cocoda from RVK record", () => {
+    mock.setRecord("002@ $0Tkv\n008A $akr\n045A $aNZ 14420")
+    cocodaURL()
+    assert.equal(mock.openURL, "https://coli-conc.gbv.de/cocoda/app/?fromScheme=http://uri.gbv.de/terminology/rvk&from=http://rvk.uni-regensburg.de/nt/NZ%252014420")
+  })
+
 })

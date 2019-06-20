@@ -1,3 +1,10 @@
+function __picaSubfieldValue(tag, subfield) {
+  var field = application.activeWindow.findTagContent(tag, 0, false)
+  if (field != undefined) {
+    return feldAnalysePlus(field, subfield)
+  }
+}
+
 /**
  * Open Cocoda in the Web browser.
  */
@@ -9,13 +16,15 @@ function cocodaURL() // eslint-disable-line no-unused-vars
     bk: {
       uri: "http://uri.gbv.de/terminology/bk",
       namespace: "http://uri.gbv.de/terminology/bk/",
-      FIELD: "045Q"
+      FIELD: "045Q",
+      _008A: "kb"
     },
 	
     rvk: {
       uri: "http://uri.gbv.de/terminology/rvk",
-      namespace: "http://uri.gbv.de/terminology/rvk/",
-      FIELD: "045R"
+      namespace: "http://rvk.uni-regensburg.de/nt/",
+      FIELD: "045R",
+      _008A: "kr"
     },
 	
     ddc: {
@@ -46,19 +55,31 @@ function cocodaURL() // eslint-disable-line no-unused-vars
     application.activeWindow.command("s p", false)
   }
 
-  // FIXME: scheme erkennen bzw. Auswahl ermöglichen
-  auswahlScheme = conceptSchemes.bk
-
-  if (application.activeWindow.materialCode == "Tk"){
-    // Normdatensatz
-    auswahlNotation = application.activeWindow.findTagContent("045A", 0, false)
-    if (auswahlNotation != undefined) {
-      auswahlNotation = feldAnalysePlus(auswahlNotation, "a")
+  // Normdatensatz
+  if (application.activeWindow.materialCode == "Tk") {
+    var classification = __picaSubfieldValue("008A", "a")
+    if (classification) {
+      console.log(classification)
+      for (scheme in conceptSchemes) {
+        scheme = conceptSchemes[scheme]
+        if (scheme._008A == classification) {
+          auswahlScheme = scheme
+          break
+        }
+      }
+      if (auswahlScheme) {
+        auswahlNotation = __picaSubfieldValue("045A", "a")
+      }
     }
-  } else {
-    // Titeldatensatz
+  } 
+
+  // Titeldatensatz
+  else {
+    // FIXME: Verwendete Normdateien erkennen bzw. Auswahl ermöglichen
+    auswahlScheme = conceptSchemes.bk
+
     satz = __zdbGetExpansionFromP3VTX() // kopiert den Titel incl. Expansionen.
-    var zeile = satz.split("\n")
+    var zeile = satz.split("\n")    
     for (i=0; i < zeile.length; i++){
       strFeld = zeile[i].substr(0,4)
       if (strFeld == auswahlScheme.FIELD) {
@@ -85,7 +106,7 @@ function cocodaURL() // eslint-disable-line no-unused-vars
 
   if (auswahlScheme && auswahlNotation != "" && auswahlNotation != undefined) {
     var url = cocodaBase + "?fromScheme=" + encodeURI(auswahlScheme.uri) 
-            + "&from=" + encodeURI(auswahlScheme.namespace + auswahlNotation)
+            + "&from=" + encodeURI(auswahlScheme.namespace + encodeURI(auswahlNotation))
     application.shellExecute(url, 5, "open", "")
   }
 }
