@@ -4,7 +4,12 @@
 
 const mock = {
   openURL: undefined,
-  picaRecord: ""
+  picaRecord: "",
+
+  // mocks application.activeWindow.getVariable
+  vars: {
+    P3VMC: "" // = materialCode
+  }
 }
 
 const utility = {
@@ -13,16 +18,24 @@ const utility = {
       return list[0]
     }
   }
+  // TODO: add alert, input etc. if needed
 }
 
 const application = { /* eslint-disable no-unused-vars */ 
   activeWindow: {
-    getVariable: (name) => { },  
-    command: (command, flag) => { },
-    materialCode: "",
-    findTagContent: (tag, x, y) => { },
+    getVariable: (name) => mock.vars[name],
+    setVariable: (name,value) => {
+      mock.vars[name] = value
+    },
+    materialCode: "", // TODO: this should always be equal to mock.vars.P3VMC
+    command: (command, inNewWindow) => { 
+
+    },
+    findTagContent: (tag, occurrence=0, includeTag=true) => {
+      // TODO: lookup in mock.picaRecord
+    }
   },
-  shellExecute: (url, a, b, c) => {
+  shellExecute: (url, showCommand, operation, parameters) => {
     mock.openURL = url
   }
 }
