@@ -10,8 +10,25 @@ function cocodaURL() // eslint-disable-line no-unused-vars
       uri: "http://uri.gbv.de/terminology/bk",
       namespace: "http://uri.gbv.de/terminology/bk/",
       FIELD: "045Q"
+    },
+	
+    rvk: {
+      uri: "http://uri.gbv.de/terminology/rvk",
+      namespace: "http://uri.gbv.de/terminology/rvk/",
+      FIELD: "045R"
+    },
+	
+    ddc: {
+      uri: "http://dewey.info/scheme/edition/e23",
+      namespace: "http://dewey.info/scheme/edition/e23/",
+      FIELD: "045F"
+    },
+	
+    gnd: {
+      uri: "http://bartoc.org/en/node/430",
+      namespace: "http://bartoc.org/en/node/430",
+      FIELD: "003U"
     }
-    // TODO: 045F, 045R..
   }
 
   var strNotation = ""
