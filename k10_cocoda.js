@@ -1,10 +1,3 @@
-function __picaSubfieldValue(tag, subfield) {
-  var field = application.activeWindow.findTagContent(tag, 0, false)
-  if (field != undefined) {
-    return feldAnalysePlus(field, subfield)
-  }
-}
-
 /**
  * Open Cocoda in the Web browser.
  */
@@ -40,15 +33,23 @@ function cocodaURL() // eslint-disable-line no-unused-vars
     }
   }
 
-  var strNotation = ""
+  var picaSubfield = function (field, subfield) {
+    var pattern = new RegExp("\u0192" + subfield + "([^\u0192\n\r]+)")
+    var match = pattern.exec(field)
+    if (match) {
+      return match[1]
+    }
+  }
+
+  var picaValue = function (tag, subfield) {
+    var field = application.activeWindow.findTagContent(tag, 0, false)
+    if (field != undefined) {
+      return picaSubfield(field, subfield)
+    }
+  }
+
   var auswahlNotation = ""
   var auswahlScheme = ""
-
-  var satz = ""
-  var strFeld = ""
-  var alleNotationen = new Array()
-  var i=0, j=0
-  var thePrompter = utility.newPrompter()
 
   // Anzeigeformat ggf. zu PICA+ wechseln
   if (application.activeWindow.getVariable("P3GPR") != "p"){
@@ -57,9 +58,8 @@ function cocodaURL() // eslint-disable-line no-unused-vars
 
   // Normdatensatz
   if (application.activeWindow.materialCode == "Tk") {
-    var classification = __picaSubfieldValue("008A", "a")
+    var classification = picaValue("008A", "a")
     if (classification) {
-      console.log(classification)
       for (scheme in conceptSchemes) {
         scheme = conceptSchemes[scheme]
         if (scheme._008A == classification) {
@@ -68,7 +68,7 @@ function cocodaURL() // eslint-disable-line no-unused-vars
         }
       }
       if (auswahlScheme) {
-        auswahlNotation = __picaSubfieldValue("045A", "a")
+        auswahlNotation = picaValue("045A", "a")
       }
     }
   } 
@@ -78,26 +78,25 @@ function cocodaURL() // eslint-disable-line no-unused-vars
     // FIXME: Verwendete Normdateien erkennen bzw. Auswahl ermöglichen
     auswahlScheme = conceptSchemes.bk
 
-    satz = __zdbGetExpansionFromP3VTX() // kopiert den Titel incl. Expansionen.
-    var zeile = satz.split("\n")    
-    for (i=0; i < zeile.length; i++){
-      strFeld = zeile[i].substr(0,4)
-      if (strFeld == auswahlScheme.FIELD) {
-        strNotation = feldAnalysePlus(zeile[i], "8")
-        var posDollar = strNotation.indexOf("$")
-        if (posDollar != -1){
-          strNotation = strNotation.substr(0,posDollar)
+    var alleNotationen = new Array()
+    var record = __zdbGetExpansionFromP3VTX() // kopiert den Titel incl. Expansionen.
+    var fields = record.split("\n")    
+    for (var i=0; i < fields.length; i++) {
+      var tag = fields[i].substr(0,4)
+      if (tag == auswahlScheme.FIELD) {
+        var notation = picaSubfield(fields[i], "8")
+        if (notation != undefined) {
+          alleNotationen.push(notation)
         }
-        alleNotationen[j] = strNotation
-        j++
       }
     }
-    //alert(alleNotationen.length + "\n" + alleNotationen.join(", "));
-    if (alleNotationen.length == 1){
-      auswahlNotation = strNotation
-    } else if (alleNotationen.length > 1){
+
+    if (alleNotationen.length == 1) {
+      auswahlNotation = alleNotationen[0]
+    } else if (alleNotationen.length > 1) {
+      var thePrompter = utility.newPrompter()
       auswahlNotation = thePrompter.select("Liste der Notationen", "Welche Notation wollen Sie in Cocoda anzeigen?", alleNotationen.join("\n"))
-      if (!auswahlNotation){
+      if (!auswahlNotation) {
         // Anwender hat keine Auswahl getroffen.
         return
       }
