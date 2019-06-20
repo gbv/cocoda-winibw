@@ -45,7 +45,8 @@ Cocoda funktioniert nicht mit dem Internet Explorer. Falls dieser Browser noch i
 
    `pref("ibw.standardScripts.script.XX", "resource:/scripts/k10_cocoda.js");` wobei `XX` durch eine fortlaufende Nummer ersetzt werden muss.
 
-3. Um die Scripte neu einzulesen, kann man entweder die WinIBW3 neu starten (oder die Tastenkombination SHIFT+STRG+ALT+R verwenden).
+3. Um die Scripte neu einzulesen, kann man entweder die WinIBW3 neu starten oder die Tastenkombination SHIFT+STRG+ALT+R verwenden.
+Wenn man Remmina benutzt, muss man erst die Aktion "Alle Tastatureingaben abfangen" in der Funktionsleiste aktivieren um SHIFT+STRG+ALT+R benutzen zu können.
 
 
 
