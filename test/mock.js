@@ -2,48 +2,82 @@
  * Mockup of WinWIBW environment.
  */
 
-const mock = {
-  openURL: undefined,
-  picaRecord: "",
+const activeWindow = new class {
 
-  // mocks application.activeWindow.getVariable
-  vars: {
-    P3VMC: "" // = materialCode
+  constructor() {
+    this._vars = { }
+    this._setRecord("")
+    this.setVariable("P3VMC", "")
   }
-}
+
+  getVariable(name) {
+    return this._vars[name] 
+  }
+
+  setVariable(name,value) {
+    this._vars[name] = value
+    if (name === "P3VMC") {
+      this.materialCode = value
+    }
+  }
+
+  command(command) { 
+    if (command === "s p") { // Wechsle zur PICA+ Ansicht
+      this.setVariable("P3GPR", "p")
+    }
+  }
+
+  findTagContent(tag, occurrence=0, includeTag=true) { // eslint-disable-line no-unused-vars
+    // TODO: support occurrence and includeTag
+    var pattern = new RegExp("(^" + tag + ".*)$", "m")
+    var match = pattern.exec(this._record)
+    if (match) {
+      return match[1]
+    }
+  }
+
+  _setRecord(pica) {
+    pica = pica.replace(/\$/g, "\u0192") // ƒ
+    var match = pica.match(/^002@ ƒ0(..)/m)
+    if (match) {
+      this.setVariable("P3VMC", match[1])
+    }
+    this._record = pica
+  }
+
+}() // singleton
 
 const utility = {
   newPrompter: () => {
-    (title, question, list) => {
-      return list[0]
+    return {
+      select: (title, question, list) => {
+        return list[0]
+      }
     }
   }
   // TODO: add alert, input etc. if needed
 }
 
-const application = { /* eslint-disable no-unused-vars */ 
-  activeWindow: {
-    getVariable: (name) => mock.vars[name],
-    setVariable: (name,value) => {
-      mock.vars[name] = value
-    },
-    materialCode: "", // TODO: this should always be equal to mock.vars.P3VMC
-    command: (command, inNewWindow) => { 
-
-    },
-    findTagContent: (tag, occurrence=0, includeTag=true) => {
-      // TODO: lookup in mock.picaRecord
-    }
-  },
-  shellExecute: (url, showCommand, operation, parameters) => {
+const application = {
+  activeWindow,
+  shellExecute: (url) => {
     mock.openURL = url
   }
 }
 
-function __zdbGetExpansionFromP3VTX() {
-  return mock.picaRecord
+const mock = {
+  openURL: undefined,
+  
+  setRecord: (pica) => {
+    activeWindow._setRecord(pica)
+  }
 }
 
+function __zdbGetExpansionFromP3VTX() {
+  return activeWindow._record
+}
+
+// aus utils.js kopiert
 function feldAnalysePlus(zeile, strFeld){
   /*
 	Wird aufgerufen mit einzelnen Zeilen im PicaPlus-Format

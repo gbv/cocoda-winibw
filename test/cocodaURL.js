@@ -16,8 +16,14 @@ describe("CocodaURL", () => {
   })
 
   it("opens Cocoda when record contains one BK field", () => {
-    mock.picaRecord = "045Q/00 ƒ812.34"
+    mock.setRecord("045Q/00 $812.34")
     cocodaURL()
     assert.equal(mock.openURL, "https://coli-conc.gbv.de/cocoda/app/?fromScheme=http://uri.gbv.de/terminology/bk&from=http://uri.gbv.de/terminology/bk/12.34")
+  })
+
+  it("opens Cocoda from BK record", () => {
+    mock.setRecord("002@ $0Tkv\n045A $a08.15")
+    cocodaURL()
+    assert.equal(mock.openURL, "https://coli-conc.gbv.de/cocoda/app/?fromScheme=http://uri.gbv.de/terminology/bk&from=http://uri.gbv.de/terminology/bk/08.15")
   })
 })

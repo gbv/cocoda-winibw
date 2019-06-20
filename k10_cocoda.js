@@ -52,7 +52,9 @@ function cocodaURL() // eslint-disable-line no-unused-vars
   if (application.activeWindow.materialCode == "Tk"){
     // Normdatensatz
     auswahlNotation = application.activeWindow.findTagContent("045A", 0, false)
-    auswahlNotation = feldAnalysePlus(auswahlNotation, "a")
+    if (auswahlNotation != undefined) {
+      auswahlNotation = feldAnalysePlus(auswahlNotation, "a")
+    }
   } else {
     // Titeldatensatz
     satz = __zdbGetExpansionFromP3VTX() // kopiert den Titel incl. Expansionen.
@@ -81,7 +83,7 @@ function cocodaURL() // eslint-disable-line no-unused-vars
     }
   }
 
-  if (auswahlScheme && auswahlNotation != "") {
+  if (auswahlScheme && auswahlNotation != "" && auswahlNotation != undefined) {
     var url = cocodaBase + "?fromScheme=" + encodeURI(auswahlScheme.uri) 
             + "&from=" + encodeURI(auswahlScheme.namespace + auswahlNotation)
     application.shellExecute(url, 5, "open", "")
