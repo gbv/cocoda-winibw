@@ -1,5 +1,7 @@
 # Integration von WinIBW und Cocoda
 
+[![Build Status](https://travis-ci.org/gbv/cocoda-winibw.svg?branch=master)](https://travis-ci.org/gbv/cocoda-winibw)
+
 Dieses Repository enthält Skripte und Anleitungen zur Integration des Katalogisierungsclient [WinIBW3] mit der Mapping-Anwendung [Cocoda].
 
 *Achtung: Die Integration befindet sich noch im Aufbau und ist nicht für den Produktivbetrieb gedacht!*
@@ -64,12 +66,10 @@ Skript per Funktionsleiste: Katalogisierung -> cocodaURL für Datensatz ausführ
 ## Entwicklung
 
 Die WinIBW-Skripte sind in JavaScript geschrieben aber nur zusammen mit einer
-K10plus-Installation von WinIBW3 lauffähig. Automatische Tests beschränken sich
-deshalb auf statische Code-Analyse:
+K10plus-Installation von WinIBW3 lauffähig. Zum automatischen Testen ist im
+Verzeichnis `test` eine rudimentäre WinIBW-Mockup-Umgebung enthalten.
     
     npm install     # Installiert benötigte node-Module
-    npm test        # Überprüft JavaScript-Syntax
+    npm test        # Unit-Tests ausführen
     npm run lint    # Statische Code-Analyse und -Formatierung
     npm run fix     # Code-Formatierung anpassen
-
-[![Build Status](https://travis-ci.org/gbv/cocoda-winibw.svg?branch=master)](https://travis-ci.org/gbv/cocoda-winibw)
