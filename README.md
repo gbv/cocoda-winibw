@@ -55,6 +55,10 @@ Optionen -> Werkzeugleiste anpassen -> Kommandos -> Standardfunktionen -> Cocoda
 
 Skript per Funktionsleiste: Katalogisierung -> cocodaURL für Datensatz ausführen
 
+## Beispieldatensätze in WinIBW
+    
+    f ppn 1667549030 #2 Datensätze
+    f ppn 042954150 #1 Datensatz
 
 ## Entwicklung
 
