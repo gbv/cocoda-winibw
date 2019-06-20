@@ -1,30 +1,48 @@
+/**
+ * Open Cocoda in the Web browser.
+ */
 function cocodaURL() // eslint-disable-line no-unused-vars
 {
-  //Cocoda
+  var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
+
+  var conceptSchemes = {
+    bk: {
+      uri: "http://uri.gbv.de/terminology/bk",
+      namespace: "http://uri.gbv.de/terminology/bk/",
+      FIELD: "045Q"
+    }
+    // TODO: 045F, 045R..
+  }
+
   var strNotation = ""
   var auswahlNotation = ""
+  var auswahlScheme = ""
+
   var satz = ""
   var strFeld = ""
-  var oRegExpFeld = /045[FQR]/
   var alleNotationen = new Array()
   var i=0, j=0
   var thePrompter = utility.newPrompter()
-  var cocoda_url = "https://coli-conc.gbv.de/cocoda/app/?fromScheme=http%3A%2F%2Furi.gbv.de%2Fterminology%2Fbk%2F&from=http%3A%2F%2Furi.gbv.de%2Fterminology%2Fbk%2"
-  //Anzeigeformat Pica+:
+
+  // Anzeigeformat ggf. zu PICA+ wechseln
   if (application.activeWindow.getVariable("P3GPR") != "p"){
     application.activeWindow.command("s p", false)
   }
+
+  // FIXME: scheme erkennen bzw. Auswahl ermöglichen
+  auswahlScheme = conceptSchemes.bk
+
   if (application.activeWindow.materialCode == "Tk"){
-    //Im Normsatz gibt es nur 1 Notation.
+    // Normdatensatz
     auswahlNotation = application.activeWindow.findTagContent("045A", 0, false)
     auswahlNotation = feldAnalysePlus(auswahlNotation, "a")
-    //alert(auswahlNotation);
   } else {
-    satz = __zdbGetExpansionFromP3VTX()//kopiert den Titel incl. Expansionen.
+    // Titeldatensatz
+    satz = __zdbGetExpansionFromP3VTX() // kopiert den Titel incl. Expansionen.
     var zeile = satz.split("\n")
     for (i=0; i < zeile.length; i++){
       strFeld = zeile[i].substr(0,4)
-      if (oRegExpFeld.test(strFeld)) {
+      if (strFeld == auswahlScheme.FIELD) {
         strNotation = feldAnalysePlus(zeile[i], "8")
         var posDollar = strNotation.indexOf("$")
         if (posDollar != -1){
@@ -35,18 +53,20 @@ function cocodaURL() // eslint-disable-line no-unused-vars
       }
     }
     //alert(alleNotationen.length + "\n" + alleNotationen.join(", "));
-    if(alleNotationen.length == 1){
+    if (alleNotationen.length == 1){
       auswahlNotation = strNotation
-    } else if(alleNotationen.length > 1){
+    } else if (alleNotationen.length > 1){
       auswahlNotation = thePrompter.select("Liste der Notationen", "Welche Notation wollen Sie in Cocoda anzeigen?", alleNotationen.join("\n"))
       if (!auswahlNotation){
-        //Anwender hat keine Auswahl getroffen.
+        // Anwender hat keine Auswahl getroffen.
         return
       }
     }
   }
-  //alert(auswahlNotation);
-  if (auswahlNotation != ""){
-    application.shellExecute(cocoda_url + auswahlNotation, 5, "open", "")
+
+  if (auswahlScheme && auswahlNotation != "") {
+    var url = cocodaBase + "?fromScheme=" + encodeURI(auswahlScheme.uri) 
+            + "&from=" + encodeURI(auswahlScheme.namespace + auswahlNotation)
+    application.shellExecute(url, 5, "open", "")
   }
 }
