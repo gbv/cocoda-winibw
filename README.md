@@ -61,7 +61,8 @@ Skript per Funktionsleiste: Katalogisierung -> cocodaURL für Datensatz ausführ
 Die WinIBW-Skripte sind in JavaScript geschrieben aber nur zusammen mit einer
 K10plus-Installation von WinIBW3 lauffähig. Automatische Tests beschränken sich
 deshalb auf statische Code-Analyse:
-
+    
+    npm install     # Installiert benötigte node-Module
     npm test        # Überprüft JavaScript-Syntax
     npm run lint    # Statische Code-Analyse und -Formatierung
     npm run fix     # Code-Formatierung anpassen
