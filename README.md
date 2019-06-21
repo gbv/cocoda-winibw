@@ -12,12 +12,12 @@ Katalogisierungsclient [WinIBW3] mit der Mapping-Anwendung [Cocoda].
 
 ## Inhalt
 - [Installation](#installation)
-- [WinIBW-Skript installieren](winibw-skript-installieren)
-- [Skript einrichten](skript-einrichten)
-- [Standard-Browser festlegen](standard-browser-festlegen)
-- [Benutzung](benutzung)
-- [Beispieldatensätze in WinIBW](beispieldatensätze-in-winibw)
-- [Entwicklung](entwicklung)
+- [WinIBW-Skript installieren](#winibw-skript-installieren)
+- [Skript einrichten](#skript-einrichten)
+- [Standard-Browser festlegen](#standard-browser-festlegen)
+- [Benutzung](#benutzung)
+- [Beispieldatensätze in WinIBW](#beispieldatensätze-in-winibw)
+- [Entwicklung](#entwicklung)
 
 ## Installation
 
