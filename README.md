@@ -57,7 +57,7 @@ Nach [Einrichtung des Skripts](#skript-einrichten) kann es über die Funktionsle
 Folgende Funktionen sind umgesetzt:
 
 * Öffnen von Cocoda aus Normdatensätzen der BK und RVK
-* Öffnen von Cocoda aus Titeldatensätzen mit BK- und/oder RVK-Erschließung
+* Öffnen von Cocoda aus Titeldatensätzen mit BK-, GND- und/oder RVK-Verknüpfungen
 
 Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/cocoda-winibw/issues)).
 

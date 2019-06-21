@@ -64,7 +64,20 @@ function cocodaURL() // eslint-disable-line no-unused-vars
     
     GND: {
       uri: "http://bartoc.org/en/node/430",
-      namespace: "http://bartoc.org/en/node/430"
+      namespace: "http://d-nb.info/gnd/",
+      FIELD: "041A",
+      EXTRACT: function(field) {
+        var expanded = picaSubfield(field, "8")          
+        if (expanded) {
+          var match = expanded.match(/(.+) ; ID: gnd\/(.+)/)
+          if (match) {
+            return {
+              notation: match[2],
+              label: match[1]
+            }
+          }
+        }
+      },            
     }
   }
   
