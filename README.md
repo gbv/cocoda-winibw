@@ -10,6 +10,15 @@ Katalogisierungsclient [WinIBW3] mit der Mapping-Anwendung [Cocoda].
 [WinIBW3]: https://wiki.k10plus.de/display/K10PLUS/WinIBW-Handbuch
 [Cocoda]: https://coli-conc.gbv.de/cocoda/
 
+## Inhalt
+- [Installation](#installation)
+- [WinIBW-Skript installieren](winibw-skript-installieren)
+- [Skript einrichten](skript-einrichten)
+- [Standard-Browser festlegen](standard-browser-festlegen)
+- [Benutzung](benutzung)
+- [Beispieldatensätze in WinIBW](beispieldatensätze-in-winibw)
+- [Entwicklung](entwicklung)
+
 ## Installation
 
 Voraussgesetzt werden die WinIBW3 mit K10plus-Skripten und Firefox oder
