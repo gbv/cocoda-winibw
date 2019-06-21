@@ -104,8 +104,8 @@ function cocodaURL() // eslint-disable-line no-unused-vars
   }
 
   if (auswahlScheme && auswahlNotation != "" && auswahlNotation != undefined) {
-    var url = cocodaBase + "?fromScheme=" + encodeURI(auswahlScheme.uri) 
-            + "&from=" + encodeURI(auswahlScheme.namespace + encodeURI(auswahlNotation))
+    var url = cocodaBase + "?fromScheme=" + encodeURIComponent(auswahlScheme.uri) 
+            + "&from=" + encodeURIComponent(auswahlScheme.namespace + encodeURI(auswahlNotation))
     application.shellExecute(url, 5, "open", "")
   }
 }
