@@ -1,20 +1,20 @@
 ## Datensatzbeispiele
 
-### BK (045Q)
+### BK
 
-- PPN 1667549030 - Titeldatensatz
-- PPN 101991983 - Normdatensatz
+- PPN 1667549030 - Titeldatensatz (045Q)
+- PPN 101991983 - Normdatensatz (045A)
 
 ---
-### RVK (045R)
+### RVK
 
-- PPN 1562366548 - Titeldatensatz
-- PPN 1270705962 - Normdatensatz
+- PPN 1562366548 - Titeldatensatz (045R)
+- PPN 1270705962 - Normdatensatz (045A)
 
 ---
 ### DDC (045F)
 
-PPN 831857919 - Titeldatensatz
+PPN 831857919 - Titeldatensatz (045F)
 Keine Verlinkung zu Normdatensätzen!
 Aber PICA+-Feld 045F mit Notation
 
@@ -32,16 +32,14 @@ Hat DDC- und BK-Feld
 
 PPN 101467877 - Normdatensatz
 
-003U **ƒa**http://d-nb.info/gnd/2003874-4
-007K **ƒa**gnd**ƒ0**2003874-4
+(003U **ƒa**http://d-nb.info/gnd/2003874-4)
+(007K **ƒa**gnd**ƒ0**2003874-4)
  
-
-
 #### 044K ƒ9 + ƒ8 = Schlagwortfolgen
 
 PPN 042954150 - Titeldatensatz
 
-044K/00 **ƒ9**105294268**ƒ8**Taxiverkehr ; ID: gnd/4184545-6
+(044K/00 **ƒ9**105294268**ƒ8**Taxiverkehr ; ID: gnd/4184545-6)
 
 
 
