@@ -5,36 +5,8 @@ function cocodaURL() // eslint-disable-line no-unused-vars
 {
   var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
 
-  var conceptSchemes = {
-    bk: {
-      uri: "http://uri.gbv.de/terminology/bk",
-      namespace: "http://uri.gbv.de/terminology/bk/",
-      FIELD: "045Q",
-      _008A: "kb"
-    },
-	
-    rvk: {
-      uri: "http://uri.gbv.de/terminology/rvk",
-      namespace: "http://rvk.uni-regensburg.de/nt/",
-      FIELD: "045R",
-      _008A: "kr"
-    },
-	
-    ddc: {
-      uri: "http://dewey.info/scheme/edition/e23",
-      namespace: "http://dewey.info/scheme/edition/e23/",
-      FIELD: "045F"
-    },
-	
-    gnd: {
-      uri: "http://bartoc.org/en/node/430",
-      namespace: "http://bartoc.org/en/node/430",
-      FIELD: "003U"
-    }
-  }
-
   var picaSubfield = function (field, subfield) {
-    var pattern = new RegExp("\u0192" + subfield + "([^\u0192\n\r]+)")
+    var pattern = new RegExp("[\u0192$]" + subfield + "([^$\u0192\n\r]+)")
     var match = pattern.exec(field)
     if (match) {
       return match[1]
@@ -47,14 +19,63 @@ function cocodaURL() // eslint-disable-line no-unused-vars
       return picaSubfield(field, subfield)
     }
   }
-
-  var auswahlNotation = ""
-  var auswahlScheme = ""
-
+  
+  var conceptSchemes = {
+    BK: {
+      uri: "http://uri.gbv.de/terminology/bk",
+      namespace: "http://uri.gbv.de/terminology/bk/",
+      FIELD: "045Q",
+      EXTRACT: function(field) {
+        var notation = picaSubfield(field, "8")                   
+        if (notation) {
+          return {
+            notation: notation,
+            label: picaSubfield(field, "j")
+          }
+        }
+      },
+      _008A: "kb"
+    },
+    
+    RVK: {
+      uri: "http://uri.gbv.de/terminology/rvk",
+      namespace: "http://rvk.uni-regensburg.de/nt/",
+      FIELD: "045R",     
+      EXTRACT: function(field) {
+        var expanded = picaSubfield(field, "8")          
+        if (expanded) {
+          var match = expanded.match(/([^:]+)(: (.+))?/)
+          if (match) {
+            return {
+              notation: match[1],
+              label: match[3]
+            }
+          }
+        }
+      },      
+      _008A: "kr"
+    },
+    
+    DDC: {
+      uri: "http://dewey.info/scheme/edition/e23",
+      namespace: "http://dewey.info/scheme/edition/e23/",
+      FIELD: "045F"
+    },
+    
+    GND: {
+      uri: "http://bartoc.org/en/node/430",
+      namespace: "http://bartoc.org/en/node/430"
+    }
+  }
+  
   // Anzeigeformat ggf. zu PICA+ wechseln
   if (application.activeWindow.getVariable("P3GPR") != "p"){
     application.activeWindow.command("s p", false)
   }
+
+  var selectNotation
+  var selectScheme
+  var scheme
 
   // Normdatensatz
   if (application.activeWindow.materialCode == "Tk") {
@@ -63,49 +84,58 @@ function cocodaURL() // eslint-disable-line no-unused-vars
       for (scheme in conceptSchemes) {
         scheme = conceptSchemes[scheme]
         if (scheme._008A == classification) {
-          auswahlScheme = scheme
+          selectScheme = scheme
           break
         }
       }
-      if (auswahlScheme) {
-        auswahlNotation = picaValue("045A", "a")
+      if (selectScheme) {
+        selectNotation = picaValue("045A", "a")
       }
     }
   } 
 
   // Titeldatensatz
   else {
-    // FIXME: Verwendete Normdateien erkennen bzw. Auswahl ermöglichen
-    auswahlScheme = conceptSchemes.bk
-
-    var alleNotationen = new Array()
+    var selectConcept
+    
+    var conceptList = new Array()
     var record = __zdbGetExpansionFromP3VTX() // kopiert den Titel incl. Expansionen.
     var fields = record.split("\n")    
     for (var i=0; i < fields.length; i++) {
       var tag = fields[i].substr(0,4)
-      if (tag == auswahlScheme.FIELD) {
-        var notation = picaSubfield(fields[i], "8")
-        if (notation != undefined) {
-          alleNotationen.push(notation)
+      for (var schemeNotation in conceptSchemes) {
+        scheme = conceptSchemes[schemeNotation]
+        if (tag == scheme.FIELD && scheme.EXTRACT) {
+          concept = scheme.EXTRACT(fields[i])
+          if (concept) {            
+            var conceptLine = schemeNotation + " " + concept.notation
+            if (concept.label) {
+              conceptLine = conceptLine + " (" + concept.label + ")"
+            }
+            conceptList.push(conceptLine)            
+          }
         }
       }
     }
 
-    if (alleNotationen.length == 1) {
-      auswahlNotation = alleNotationen[0]
-    } else if (alleNotationen.length > 1) {
+    if (conceptList.length == 1) {
+      selectConcept = conceptList[0]
+    } else if (conceptList.length > 1) {
       var thePrompter = utility.newPrompter()
-      auswahlNotation = thePrompter.select("Liste der Notationen", "Welche Notation wollen Sie in Cocoda anzeigen?", alleNotationen.join("\n"))
-      if (!auswahlNotation) {
-        // Anwender hat keine Auswahl getroffen.
-        return
-      }
+      selectConcept = thePrompter.select("Liste der Notationen", "Welche Notation wollen Sie in Cocoda anzeigen?", conceptList.join("\n"))
     }
+    
+    if (selectConcept) {
+      var match = selectConcept.match(/([^ ]+) (.+?)( \(.+\))?$/)        
+      selectScheme = conceptSchemes[match[1]]
+      selectNotation = match[2]
+    }          
   }
-
-  if (auswahlScheme && auswahlNotation != "" && auswahlNotation != undefined) {
-    var url = cocodaBase + "?fromScheme=" + encodeURIComponent(auswahlScheme.uri) 
-            + "&from=" + encodeURIComponent(auswahlScheme.namespace + encodeURI(auswahlNotation))
+      
+  // Cocoda im Browser öffnen
+  if (selectScheme && selectNotation != undefined) {
+    var url = cocodaBase + "?fromScheme=" + encodeURIComponent(selectScheme.uri) 
+            + "&from=" + encodeURIComponent(selectScheme.namespace + encodeURI(selectNotation))
     application.shellExecute(url, 5, "open", "")
   }
 }
