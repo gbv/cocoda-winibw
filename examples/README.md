@@ -76,14 +76,14 @@ Hat DDC- und BK-Feld.
 
 ---
 
-### NLM
+### NLM (045C)
 
 - PPN [630711690](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=630711690) - Titeldatensatz
 - PPN [1662852126](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=1662852126) - Titeldatensatz
 
 ---
 
-### ASB
+### ASB (045B/00)
 
 - PPN [1042229783](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=1042229783) - Titeldatensatz
 - PPN [239479246](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=239479246) - Titeldatensatz
