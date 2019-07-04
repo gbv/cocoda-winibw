@@ -64,26 +64,26 @@ Hat DDC- und BK-Feld.
 
 ### SfB (045B/02)
 
-- PPN [194275779](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=194275779)
-- PPN [661301583](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=661301583)
+- PPN [194275779](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=194275779) - Titeldatensatz
+- PPN [661301583](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=661301583) - Titeldatensatz
 
 ---
 
 ### KAB (045/03)
 
-- PPN [1042229783](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=1042229783)
-- PPN [1641028696](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=1641028696)
+- PPN [1042229783](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=1042229783) - Titeldatensatz
+- PPN [1641028696](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=1641028696) - Titeldatensatz
 
 ---
 
 ### NLM
 
-- PPN [630711690](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=630711690)
-- PPN [1662852126](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=1662852126)
+- PPN [630711690](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=630711690) - Titeldatensatz
+- PPN [1662852126](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=1662852126) - Titeldatensatz
 
 ---
 
 ### ASB
 
-- PPN [1042229783](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=1042229783)
-- PPN [239479246](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=239479246)
+- PPN [1042229783](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=1042229783) - Titeldatensatz
+- PPN [239479246](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=239479246) - Titeldatensatz
