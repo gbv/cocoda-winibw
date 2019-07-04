@@ -23,13 +23,14 @@ Keine Verlinkung zu Normdatensätzen!
 Aber PICA+ Feld 045F mit Notation.
 
 ---
-### BOS
+### BOS (145Z/3X)
 
 - PPN [896339521](https://kxp.k10plus.de/DB=2.1/PPNSET?PPN=896339521) - Titeldatensatz
 
-Keine Verlinkung zu Normdatensätzen!
-Kein PICA-Feld!
-Hat DDC- und BK-Feld.
+Keine Verlinkung zu Normdatensätzen! Hat DDC- und BK-Feld.
+
+PICA-Feld 145Z/3X enthält eine lokale Notation. Dass es sich hierbei um BOS handelt ist
+ersichtlich an der Bibliothek des Lokalsatzes in 101@.
 
 ---
 ### GND
