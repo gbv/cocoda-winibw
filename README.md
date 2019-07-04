@@ -78,11 +78,21 @@ Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/co
 
 ## Entwicklung
 
-Die WinIBW-Skripte sind in JavaScript geschrieben aber nur zusammen mit einer
-K10plus-Installation von WinIBW3 lauffähig. Zum automatischen Testen ist im
-Verzeichnis `test` eine rudimentäre WinIBW-Mockup-Umgebung enthalten.
+Die WinIBW-Skripte sind in [JavaScript 1.4] geschrieben und nur zusammen mit
+einer K10plus-Installation von WinIBW3 lauffähig. Zum automatischen Testen ist
+im Verzeichnis `test` eine rudimentäre WinIBW-Mockup-Umgebung enthalten.
     
     npm install     # Installiert benötigte node-Module
     npm test        # Unit-Tests ausführen
     npm run lint    # Statische Code-Analyse und -Formatierung
     npm run fix     # Code-Formatierung anpassen
+
+Da die Tests mit Node statt mit JavaScript 1.4 laufen, wird nicht die
+Verwendung neuerer Sprachkonstrukte erkannt, die in WinIBW zu Fehler führen
+würden. Insbesondere wird nicht unterstützt:
+
+* `const` und `let`
+* [Array-Funktionen](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.6) (`.fforEach, map, filter...)
+* Das [`JSON`-Objekt](https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/JSON)
+
+[JavaScript 1.4]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.4
