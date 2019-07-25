@@ -19,14 +19,14 @@ function cocodaURL() // eslint-disable-line no-unused-vars
       return picaSubfield(field, subfield)
     }
   }
-  
+
   var conceptSchemes = {
     BK: {
       uri: "http://uri.gbv.de/terminology/bk",
       namespace: "http://uri.gbv.de/terminology/bk/",
       FIELD: "045Q",
       EXTRACT: function(field) {
-        var notation = picaSubfield(field, "8")                   
+        var notation = picaSubfield(field, "8")
         if (notation) {
           return {
             notation: notation,
@@ -36,13 +36,13 @@ function cocodaURL() // eslint-disable-line no-unused-vars
       },
       _008A: "kb"
     },
-    
+
     RVK: {
       uri: "http://uri.gbv.de/terminology/rvk",
       namespace: "http://rvk.uni-regensburg.de/nt/",
-      FIELD: "045R",     
+      FIELD: "045R",
       EXTRACT: function(field) {
-        var expanded = picaSubfield(field, "8")          
+        var expanded = picaSubfield(field, "8")
         if (expanded) {
           var match = expanded.match(/([^:]+)(: (.+))?/)
           if (match) {
@@ -52,22 +52,22 @@ function cocodaURL() // eslint-disable-line no-unused-vars
             }
           }
         }
-      },      
+      },
       _008A: "kr"
     },
-    
+
     DDC: {
       uri: "http://dewey.info/scheme/edition/e23",
       namespace: "http://dewey.info/scheme/edition/e23/",
       FIELD: "045F"
     },
-    
+
     GND: {
       uri: "http://bartoc.org/en/node/430",
       namespace: "http://d-nb.info/gnd/",
       FIELD: "041A",
       EXTRACT: function(field) {
-        var expanded = picaSubfield(field, "8")          
+        var expanded = picaSubfield(field, "8")
         if (expanded) {
           var match = expanded.match(/(.+) ; ID: gnd\/(.+)/)
           if (match) {
@@ -77,10 +77,10 @@ function cocodaURL() // eslint-disable-line no-unused-vars
             }
           }
         }
-      },            
+      }
     }
   }
-  
+
   // Anzeigeformat ggf. zu PICA+ wechseln
   if (application.activeWindow.getVariable("P3GPR") != "p"){
     application.activeWindow.command("s p", false)
@@ -105,27 +105,27 @@ function cocodaURL() // eslint-disable-line no-unused-vars
         selectNotation = picaValue("045A", "a")
       }
     }
-  } 
+  }
 
   // Titeldatensatz
   else {
     var selectConcept
-    
+
     var conceptList = new Array()
     var record = __zdbGetExpansionFromP3VTX() // kopiert den Titel incl. Expansionen.
-    var fields = record.split("\n")    
+    var fields = record.split("\n")
     for (var i=0; i < fields.length; i++) {
       var tag = fields[i].substr(0,4)
       for (var schemeNotation in conceptSchemes) {
         scheme = conceptSchemes[schemeNotation]
         if (tag == scheme.FIELD && scheme.EXTRACT) {
-          concept = scheme.EXTRACT(fields[i])
-          if (concept) {            
+          var concept = scheme.EXTRACT(fields[i])
+          if (concept) {
             var conceptLine = schemeNotation + " " + concept.notation
             if (concept.label) {
               conceptLine = conceptLine + " (" + concept.label + ")"
             }
-            conceptList.push(conceptLine)            
+            conceptList.push(conceptLine)
           }
         }
       }
@@ -137,17 +137,17 @@ function cocodaURL() // eslint-disable-line no-unused-vars
       var thePrompter = utility.newPrompter()
       selectConcept = thePrompter.select("Liste der Notationen", "Welche Notation wollen Sie in Cocoda anzeigen?", conceptList.join("\n"))
     }
-    
+
     if (selectConcept) {
-      var match = selectConcept.match(/([^ ]+) (.+?)( \(.+\))?$/)        
+      var match = selectConcept.match(/([^ ]+) (.+?)( \(.+\))?$/)
       selectScheme = conceptSchemes[match[1]]
       selectNotation = match[2]
-    }          
+    }
   }
-      
+
   // Cocoda im Browser öffnen
   if (selectScheme && selectNotation != undefined) {
-    var url = cocodaBase + "?fromScheme=" + encodeURIComponent(selectScheme.uri) 
+    var url = cocodaBase + "?fromScheme=" + encodeURIComponent(selectScheme.uri)
             + "&from=" + encodeURIComponent(selectScheme.namespace + encodeURI(selectNotation))
     application.shellExecute(url, 5, "open", "")
   }
