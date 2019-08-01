@@ -11,7 +11,7 @@ const activeWindow = new class {
   }
 
   getVariable(name) {
-    return this._vars[name] 
+    return this._vars[name]
   }
 
   setVariable(name,value) {
@@ -21,7 +21,7 @@ const activeWindow = new class {
     }
   }
 
-  command(command) { 
+  command(command) {
     if (command === "s p") { // Wechsle zur PICA+ Ansicht
       this.setVariable("P3GPR", "p")
     }
@@ -62,12 +62,13 @@ const application = {
   activeWindow,
   shellExecute: (url) => {
     mock.openURL = url
-  }
+  },
+  messageBox: () => {}
 }
 
 const mock = {
   openURL: undefined,
-  
+
   setRecord: (pica) => {
     activeWindow._setRecord(pica)
   }

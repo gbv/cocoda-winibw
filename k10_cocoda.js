@@ -1,9 +1,89 @@
+var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
+var cocodaURLAlwaysShowChoice = false
+
 /**
- * Open Cocoda in the Web browser.
+ * Opens Cocoda in the web browser.
+ *
+ * If there are no concepts found in the dataset, an alert will be shown.
+ * If there are more than one concept found in the dataset, a prompt will be shown to select one of the concepts.
  */
-function cocodaURL() // eslint-disable-line no-unused-vars
-{
-  var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
+function cocodaURL() { // eslint-disable-line no-unused-vars
+  var result = __cocodaGetConcepts()
+  var selectScheme
+  var selectConcept
+
+  if (result.length == 0) {
+    application.messageBox("Keine Konzepte gefunden", "Es konnten im aktuellen Datensatz keine Konzepte gefunden werden.", "alert-icon")
+    return
+  } else if (result.length == 1 && !cocodaURLAlwaysShowChoice) {
+    selectScheme = result[0].scheme
+    selectConcept = result[0].concept
+  } else if (result.length > 1) {
+    var thePrompter = utility.newPrompter()
+    var conceptList = []
+    for (i = 0; i < result.length; i += 1) {
+      var concept = result[i].concept
+      var scheme = result[i].scheme
+      var conceptLine = scheme.notation + " " + concept.notation
+      if (concept.label) {
+        conceptLine = conceptLine + " (" + concept.label + ")"
+      }
+      conceptList.push(conceptLine)
+    }
+    var reply = thePrompter.select("Liste der Notationen", "Welche Notation wollen Sie in Cocoda anzeigen?", conceptList.join("\n"))
+    if (reply) {
+      var match = reply.match(/([^ ]+) (.+?)( \(.+\))?$/)
+      // Find match in result list
+      // TODO: - Maybe polyfill Array.find()
+      for (i = 0; i < result.length; i += 1) {
+        if (result[i].scheme.notation == match[1] && result[i].concept.notation == match[2]) {
+          selectScheme = result[i].scheme
+          selectConcept = result[i].concept
+        }
+      }
+    }
+  }
+
+  // Cocoda im Browser öffnen
+  if (selectScheme && selectConcept) {
+    var url = cocodaBase + "?fromScheme=" + encodeURIComponent(selectScheme.uri)
+            + "&from=" + encodeURIComponent(selectConcept.uri)
+    application.shellExecute(url, 5, "open", "")
+  }
+}
+
+/**
+ * Shows a message box with the list of available concepts.
+ */
+function cocodaShowConcepts() { // eslint-disable-line no-unused-vars
+  var result = __cocodaGetConcepts()
+  var text = ""
+  for (var i = 0; i < result.length; i += 1) {
+    text += result[i].scheme.notation + " - " + result[i].concept.notation
+    if (result[i].concept.label) {
+      text += " (" + result[i].concept.label + ")"
+    }
+    text += "\n"
+  }
+  var icon = "message-icon"
+  if (text == "") {
+    icon = "alert-icon"
+    text = "Keine Konzepte gefunden."
+  }
+  application.messageBox("Gefundene Konzepte", text, icon)
+}
+
+/**
+ * Returns a list of concepts found in the current dataset.
+ *
+ * The return value is an array of objects in the following form:
+ * {
+ *   scheme: { uri: ..., notation: ..., ... },
+ *   concept: { uri: ..., notation: ..., label: ... }
+ * }
+ * concept.label might or might not be available.
+ */
+function __cocodaGetConcepts() {
 
   var picaSubfield = function (field, subfield) {
     var pattern = new RegExp("[\u0192$]" + subfield + "([^$\u0192\n\r]+)")
@@ -86,69 +166,65 @@ function cocodaURL() // eslint-disable-line no-unused-vars
     application.activeWindow.command("s p", false)
   }
 
-  var selectNotation
-  var selectScheme
   var scheme
+  var concept
+  var result
 
   // Normdatensatz
   if (application.activeWindow.materialCode == "Tk") {
     var classification = picaValue("008A", "a")
     if (classification) {
-      for (scheme in conceptSchemes) {
-        scheme = conceptSchemes[scheme]
-        if (scheme._008A == classification) {
-          selectScheme = scheme
+      for (conceptScheme in conceptSchemes) {
+        conceptScheme = conceptSchemes[conceptScheme]
+        if (conceptScheme._008A == classification) {
+          scheme = conceptScheme
           break
         }
       }
-      if (selectScheme) {
-        selectNotation = picaValue("045A", "a")
+      if (scheme) {
+        concept = {
+          notation: picaValue("045A", "a")
+        }
       }
     }
+    if (scheme && concept) {
+      result = [{
+        scheme: scheme,
+        concept: concept
+      }]
+    } else {
+      result = []
+    }
   }
-
   // Titeldatensatz
   else {
-    var selectConcept
 
-    var conceptList = new Array()
+    result = new Array()
     var record = __zdbGetExpansionFromP3VTX() // kopiert den Titel incl. Expansionen.
     var fields = record.split("\n")
     for (var i=0; i < fields.length; i++) {
       var tag = fields[i].substr(0,4)
       for (var schemeNotation in conceptSchemes) {
         scheme = conceptSchemes[schemeNotation]
+        scheme.notation = schemeNotation
         if (tag == scheme.FIELD && scheme.EXTRACT) {
-          var concept = scheme.EXTRACT(fields[i])
+          concept = scheme.EXTRACT(fields[i])
           if (concept) {
-            var conceptLine = schemeNotation + " " + concept.notation
-            if (concept.label) {
-              conceptLine = conceptLine + " (" + concept.label + ")"
-            }
-            conceptList.push(conceptLine)
+            result.push({
+              scheme: scheme,
+              concept: concept
+            })
           }
         }
       }
     }
-
-    if (conceptList.length == 1) {
-      selectConcept = conceptList[0]
-    } else if (conceptList.length > 1) {
-      var thePrompter = utility.newPrompter()
-      selectConcept = thePrompter.select("Liste der Notationen", "Welche Notation wollen Sie in Cocoda anzeigen?", conceptList.join("\n"))
-    }
-
-    if (selectConcept) {
-      var match = selectConcept.match(/([^ ]+) (.+?)( \(.+\))?$/)
-      selectScheme = conceptSchemes[match[1]]
-      selectNotation = match[2]
-    }
   }
 
-  // Cocoda im Browser öffnen
-  if (selectScheme && selectNotation != undefined) {
-    var url = cocodaBase + "?fromScheme=" + encodeURIComponent(selectScheme.uri)
-            + "&from=" + encodeURIComponent(selectScheme.namespace + encodeURI(selectNotation))
-    application.shellExecute(url, 5, "open", "")
+  // Add concept URIs to result
+  for (i = 0; i < result.length; i += 1) {
+    result[i].concept.uri = result[i].scheme.namespace + encodeURIComponent(result[i].concept.notation)
   }
+
+  return result
+
 }
