@@ -65,8 +65,9 @@ Nach [Einrichtung des Skripts](#skript-einrichten) kann es über die Funktionsle
 
 Folgende Funktionen sind umgesetzt:
 
-* Öffnen von Cocoda aus Normdatensätzen der BK und RVK
-* Öffnen von Cocoda aus Titeldatensätzen mit BK-, GND- und/oder RVK-Verknüpfungen
+* Öffnen von Cocoda aus Normdatensätzen der BK und RVK (`cocodaURL`)
+* Öffnen von Cocoda aus Titeldatensätzen mit BK-, GND- und/oder RVK-Verknüpfungen (`cocodaURL`)
+* Anzeige von Mappings zu genannten Normdatensätzen/Titeldatensätzen (`cocodaMappings`)
 
 Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/cocoda-winibw/issues)).
 
@@ -91,8 +92,10 @@ Da die Tests mit Node statt mit JavaScript 1.4 laufen, wird nicht die
 Verwendung neuerer Sprachkonstrukte erkannt, die in WinIBW zu Fehler führen
 würden. Insbesondere wird nicht unterstützt:
 
-* `const` und `let`
-* [Array-Funktionen](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.6) (`.fforEach, map, filter...)
-* Das [`JSON`-Objekt](https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/JSON)
+* `const` und `let` \*
+* [Array-Funktionen](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.6) (`forEach`, `map`, `filter`, `find`, ...)
+* ~~Das [`JSON`-Objekt](https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/JSON)~~ wurde über einen Polyfill hinzugefügt.
+
+\*: Dies hat insbesondere Auswirkungen auf den Scope der definierten Variablen. `const` und `let` haben block scope, während `var` function scope hat. Für Details dazu: [You Don't Know JS: Scope & Closures - Chapter 3: Function vs. Block Scope](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch3.md).
 
 [JavaScript 1.4]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.4
