@@ -4,7 +4,7 @@ const querystring = require("querystring")
 const scriptFile = __dirname + "/../k10_cocoda.js"
 
 // set up WinIBW mocking
-const { mock, application, utility, __zdbGetExpansionFromP3VTX, feldAnalysePlus } = require("./mock") // eslint-disable-line no-unused-vars
+const { mock, application, utility, __zdbGetExpansionFromP3VTX, feldAnalysePlus } = require("./mock")() // eslint-disable-line no-unused-vars
 
 // scriptFile is no ES module wo we need to eval it
 eval(readFileSync(scriptFile).toString())
