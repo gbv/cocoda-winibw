@@ -38,11 +38,11 @@ Wenn man [Remmina](https://remmina.org/) benutzt, muss man erst die Aktion "Alle
 
 ### Skript einrichten
 
-Cocoda-Funktionen als Shortcut und/oder Eintrag in der Funktionsleiste einrichten: 
+Cocoda-Funktionen als Shortcut und/oder Eintrag in der Funktionsleiste einrichten:
 
-Optionen -> Werkzeugleiste anpassen -> Kommandos -> Standardfunktionen -> CocodaURL -> Drag&Drop in Funktionsfeld Normdaten
+Optionen -> Werkzeugleiste anpassen -> Kommandos -> Standardfunktionen -> `cocodaURL` und `cocodaMappings` -> Drag&Drop in Funktionsfeld Normdaten
 
-Skript per Funktionsleiste: Normdaten -> cocodaURL für Datensatz ausführen
+Skript per Funktionsleiste: Normdaten -> `cocodaURL` oder `cocodaMappings` für Datensatz ausführen
 
 Zusätzlich kann ein Tastatur-Shortcut vergeben werden.
 
@@ -71,7 +71,7 @@ Folgende Funktionen sind umgesetzt:
 Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/cocoda-winibw/issues)).
 
 ## Beispieldatensätze in WinIBW
-    
+
     f ppn 1667549030 # Titeldatensatz mit mehreren BK- und GND-Verknüpfungen
     f ppn 042954150  # Titeldatensatz mit einer BK- und zwei GND-Verknüpfungen
     f ppn 101991983  # BK-Normdatensatz
@@ -81,7 +81,7 @@ Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/co
 Die WinIBW-Skripte sind in [JavaScript 1.4] geschrieben und nur zusammen mit
 einer K10plus-Installation von WinIBW3 lauffähig. Zum automatischen Testen ist
 im Verzeichnis `test` eine rudimentäre WinIBW-Mockup-Umgebung enthalten.
-    
+
     npm install     # Installiert benötigte node-Module
     npm test        # Unit-Tests ausführen
     npm run lint    # Statische Code-Analyse und -Formatierung
