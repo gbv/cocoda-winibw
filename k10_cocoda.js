@@ -1,4 +1,8 @@
+// JSON polyfill
+if(!JSON)var JSON={parse:function(sJSON){return eval("("+sJSON+")")},stringify:function(){function i(r){return t[r]||"\\u"+(r.charCodeAt(0)+65536).toString(16).substr(1)}var f=Object.prototype.toString,a=Array.isArray||function(r){return"[object Array]"===f.call(r)},t={'"':'\\"',"\\":"\\\\","\b":"\\b","\f":"\\f","\n":"\\n","\r":"\\r","\t":"\\t"},c=/[\\"\u0000-\u001F\u2028\u2029]/g;return function r(t){if(null==t)return"null";if("number"==typeof t)return isFinite(t)?t.toString():"null";if("boolean"==typeof t)return t.toString();if("object"==typeof t){if("function"==typeof t.toJSON)return r(t.toJSON());if(a(t)){for(var n="[",e=0;e<t.length;e++)n+=(e?", ":"")+r(t[e]);return n+"]"}if("[object Object]"===f.call(t)){var o=[];for(var u in t)t.hasOwnProperty(u)&&o.push(r(u)+": "+r(t[u]));return"{"+o.join(", ")+"}"}}return'"'+t.toString().replace(c,i)+'"'}}()}; // eslint-disable-line
+
 var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
+var cocodaApiBase = "http://coli-conc.gbv.de/api/"
 var cocodaURLAlwaysShowChoice = false
 
 /**
@@ -49,6 +53,67 @@ function cocodaURL() { // eslint-disable-line no-unused-vars
     var url = cocodaBase + "?fromScheme=" + encodeURIComponent(selectScheme.uri)
             + "&from=" + encodeURIComponent(selectConcept.uri)
     application.shellExecute(url, 5, "open", "")
+  }
+}
+
+/**
+ * Queries all mappings related to the current dataset.
+ */
+function cocodaMappings() { // eslint-disable-line no-unused-vars
+  var results = __cocodaGetConcepts()
+  var mappings
+  var message
+  if (results.length == 0) {
+    mappings = []
+    message = "Keine Konzepte im aktuellen Datensatz gefunden."
+  } else {
+    // Request mappings from API
+    var url = cocodaApiBase + "mappings?"
+    var conceptUris = []
+    for (i = 0; i < results.length; i += 1) {
+      conceptUris.push(encodeURIComponent(results[i].concept.uri))
+    }
+    url += "from=" + conceptUris.join("|") + "&direction=both"
+    try {
+      mappings = __cocodaHttpRequest(url)
+    } catch(error) {
+      mappings = []
+      message = "Fehler bei der API-Abfrage: " + error.message
+    }
+  }
+  if (mappings.length) {
+    // Transform mappings into text form
+    message = ""
+    for (i = 0; i < mappings.length; i += 1) {
+      var mapping = mappings[i]
+      // Assuming there is always fromScheme/from with notations
+      message += mapping.fromScheme.notation[0] + " " + mapping.from.memberSet[0].notation[0]
+      // TODO: Integrate mapping types
+      message += " ---> "
+      if (mapping.toScheme && mapping.toScheme.notation) {
+        message += mapping.toScheme.notation[0] + " "
+      }
+      var toConcepts = mapping.to.memberSet || mapping.to.memberChoice
+      var toConceptNotations = []
+      for (j = 0; j < toConcepts.length; j += 1) {
+        if (toConcepts[j].notation) {
+          toConceptNotations.push(toConcepts[j].notation[0])
+        }
+      }
+      message += toConceptNotations.join(" | ")
+      message += "\n"
+      // Add creator
+      var creator = (mapping.creator && mapping.creator[0] && mapping.creator[0].prefLabel && (mapping.creator[0].prefLabel.de || mapping.creator[0].prefLabel.en)) || "unbekannt"
+      message += ".... Erstellt von: " + creator
+      if (mapping.created) {
+        message += " (" + mapping.created + ")"
+      }
+      message += "\n"
+    }
+
+    application.messageBox("Gefundene Mappings", message, "message-icon")
+  } else {
+    application.messageBox("Fehler", message, "alert-icon")
   }
 }
 
@@ -227,4 +292,25 @@ function __cocodaGetConcepts() {
 
   return result
 
+}
+
+/**
+ * Performs a HTTP request and returns the result as an array or object.
+ *
+ * @param {string} url
+ * @param {string} method `GET` (default), `POST`, etc.
+ * @param {*} data
+ */
+function __cocodaHttpRequest(url, method, data) {
+  method = method || "GET"
+  data = data || null
+  var XMLHttpRequest  = Components.Constructor("@mozilla.org/xmlextras/xmlhttprequest;1", "nsIXMLHttpRequest")
+  var request = XMLHttpRequest()
+  request.open(method, url, false) // third argument `false` => synchronous request
+  request.send(data)
+  if (request.readyState == 4 && request.status == 200) {
+    return JSON.parse(request.responseText)
+  } else {
+    throw Error("Request not successful (code " + request.status + ")")
+  }
 }
