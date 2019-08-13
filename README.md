@@ -26,7 +26,7 @@ Chrome-Browser als [Standard-Browser](#standard-browser-festlegen).
 
 ### WinIBW-Skript installieren
 
-1. Die Skript-Datei `k10_cocoda.js` nach
+1. Die Skript-Datei [`k10_cocoda.js`](https://github.com/gbv/cocoda-winibw/raw/master/k10_cocoda.js) nach
 `C:\Program Files (x86)\WinIBW30_K10plus\scripts\` kopieren
 
 2. In `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup.js` Folgendes eintragen, damit das Skript beim Neustart von WinWIBW geladen wird:
