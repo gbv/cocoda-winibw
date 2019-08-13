@@ -21,20 +21,25 @@ Katalogisierungsclient [WinIBW3] mit der Mapping-Anwendung [Cocoda].
 
 ## Installation
 
-Voraussgesetzt werden die WinIBW3 mit K10plus-Skripten und Firefox oder
+Vorausgesetzt werden die WinIBW3 mit K10plus-Skripten und Firefox oder
 Chrome-Browser als [Standard-Browser](#standard-browser-festlegen).
 
 ### WinIBW-Skript installieren
 
-1. Die Skript-Datei [`k10_cocoda.js`](https://github.com/gbv/cocoda-winibw/raw/master/k10_cocoda.js) nach
-`C:\Program Files (x86)\WinIBW30_K10plus\scripts\` kopieren
-
-2. In `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup.js` Folgendes eintragen, damit das Skript beim Neustart von WinWIBW geladen wird:
+1. Einmalig in `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup.js` Folgendes eintragen, damit das Skript beim Neustart von WinWIBW geladen wird:
 
    `pref("ibw.standardScripts.script.XX", "resource:/scripts/k10_cocoda.js");` wobei `XX` durch eine fortlaufende Nummer ersetzt werden muss.
 
+2. Das Skript [`k10_cocoda.js`](https://github.com/gbv/cocoda-winibw/raw/master/k10_cocoda.js) herunterladen und nach `C:\Program Files (x86)\WinIBW30_K10plus\scripts\` kopieren. Statt den Download per Hand durchzuführen können auch folgende Kommandos auf der Powershell ausgeführt werden:
+
+    ~~~
+    Import-Module bitstransfer
+    start-bitstransfer -source https://github.com/gbv/cocoda-winibw/raw/master/k10_cocoda.js -destination "C:\Program Files (x86)\WinIBW30_K10plus\scripts"
+    ~~~
+
 3. Um die Scripte neu einzulesen, kann man entweder die WinIBW3 neu starten oder die Tastenkombination SHIFT+STRG+ALT+R verwenden.
 Wenn man [Remmina](https://remmina.org/) benutzt, muss man erst die Aktion "Alle Tastatureingaben abfangen" in der Funktionsleiste aktivieren um SHIFT+STRG+ALT+R benutzen zu können.
+
 
 ### Skript einrichten
 
