@@ -107,7 +107,6 @@ function cocodaMappings() { // eslint-disable-line no-unused-vars
   }
 
   var mappings
-  var message
    
   // Request mappings from API
   var url = cocodaApiBase + "mappings?"
@@ -158,7 +157,7 @@ function cocodaMappings() { // eslint-disable-line no-unused-vars
   }
 
   var thePrompter = utility.newPrompter()
-  var reply = thePrompter.select(cocodaMsg.listMappingsTitle, cocodaMsg.listMappings, mappingList.join("\n"))
+  thePrompter.select(cocodaMsg.listMappingsTitle, cocodaMsg.listMappings, mappingList.join("\n"))
 }
 
 /**
