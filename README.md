@@ -28,7 +28,9 @@ Chrome-Browser als [Standard-Browser](#standard-browser-festlegen).
 
 1. Einmalig in `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup.js` Folgendes eintragen, damit das Skript beim Neustart von WinWIBW geladen wird:
 
-   `pref("ibw.standardScripts.script.XX", "resource:/scripts/k10_cocoda.js");` wobei `XX` durch eine fortlaufende Nummer ersetzt werden muss.
+   `pref("ibw.standardScripts.script.80", "resource:/scripts/k10_cocoda.js");`
+
+  Dabei muss `80` ggf. durch eine andere fortlaufende Nummer ersetzt werden. Alternativ kann diese Zeile auch in eine eigene Datei `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup_cocoda.js` eingetragen werden um den Eintrag bei Updates von `setup.js` nicht zu verlieren.
 
 2. Das Skript [`k10_cocoda.js`](https://github.com/gbv/cocoda-winibw/raw/master/k10_cocoda.js) herunterladen und nach `C:\Program Files (x86)\WinIBW30_K10plus\scripts\` kopieren. Statt den Download per Hand durchzuführen können auch folgende Kommandos auf der Powershell ausgeführt werden:
 
