@@ -49,7 +49,9 @@ Cocoda-Funktionen Eintrag in der Funktionsleiste hinzufügen (unter *Optionen* �
 * `cocodaMappings`
 * `cocodaShowConcepts`
 
-Zusätzlich kann ein Tastatur-Shortcut vergeben werden.
+Zusätzlich können Tastatur-Shortcuts vergeben und die Benennung der Menueinträge (mit Rechtsklick) geändert werden.
+
+![](img/normdaten-menu.png)
 
 ### Standard-Browser festlegen
 
@@ -73,8 +75,15 @@ Folgende Funktionen sind umgesetzt:
 * Öffnen von Cocoda aus Normdatensätzen der BK und RVK (`cocodaOpen`)
 * Öffnen von Cocoda aus Titeldatensätzen mit BK-, GND- und/oder RVK-Verknüpfungen (`cocodaOpen`)
 * Anzeige von Mappings zu genannten Normdatensätzen/Titeldatensätzen (`cocodaMappings`)
+* Anzeige von Erkannten Normdaten in einem Datensatz (`cocodaShowConcepts`)
 
 Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/cocoda-winibw/issues)).
+
+![](img/open-select-dialog.png)
+
+![](img/show-concepts-dialog.png)
+
+![](img/show-mappings-dialog.png)
 
 ## Beispieldatensätze in WinIBW
 
@@ -102,5 +111,7 @@ würden. Insbesondere wird nicht unterstützt:
 * ~~Das [`JSON`-Objekt](https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/JSON)~~ wurde über einen Polyfill hinzugefügt.
 
 \*: Dies hat insbesondere Auswirkungen auf den Scope der definierten Variablen. `const` und `let` haben block scope, während `var` function scope hat. Für Details dazu: [You Don't Know JS: Scope & Closures - Chapter 3: Function vs. Block Scope](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch3.md).
+
+Änderungen sollten zunächst auf dem `dev` Branch getätigt werden.
 
 [JavaScript 1.4]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.4
