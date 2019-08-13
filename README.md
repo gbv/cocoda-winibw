@@ -43,11 +43,11 @@ Wenn man [Remmina](https://remmina.org/) benutzt, muss man erst die Aktion "Alle
 
 ### Skript einrichten
 
-Cocoda-Funktionen als Shortcut und/oder Eintrag in der Funktionsleiste einrichten:
+Cocoda-Funktionen Eintrag in der Funktionsleiste hinzufügen (unter *Optionen* →  *Werkzeugleiste anpassen* →  *Kommandos* →  *Standardfunktionen* per Drag & Drop in das Menu *Normdaten* der Funktionsleiste ziehen:
 
-Optionen -> Werkzeugleiste anpassen -> Kommandos -> Standardfunktionen -> `cocodaOpen` und `cocodaMappings` -> Drag&Drop in Funktionsfeld Normdaten
-
-Skript per Funktionsleiste: Normdaten -> `cocodaOpen` oder `cocodaMappings` für Datensatz ausführen
+* `cocodaOpen`
+* `cocodaMappings`
+* `cocodaShowConcepts`
 
 Zusätzlich kann ein Tastatur-Shortcut vergeben werden.
 

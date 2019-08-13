@@ -1,10 +1,51 @@
 // JSON polyfill
 if(!JSON)var JSON={parse:function(sJSON){return eval("("+sJSON+")")},stringify:function(){function i(r){return t[r]||"\\u"+(r.charCodeAt(0)+65536).toString(16).substr(1)}var f=Object.prototype.toString,a=Array.isArray||function(r){return"[object Array]"===f.call(r)},t={'"':'\\"',"\\":"\\\\","\b":"\\b","\f":"\\f","\n":"\\n","\r":"\\r","\t":"\\t"},c=/[\\"\u0000-\u001F\u2028\u2029]/g;return function r(t){if(null==t)return"null";if("number"==typeof t)return isFinite(t)?t.toString():"null";if("boolean"==typeof t)return t.toString();if("object"==typeof t){if("function"==typeof t.toJSON)return r(t.toJSON());if(a(t)){for(var n="[",e=0;e<t.length;e++)n+=(e?", ":"")+r(t[e]);return n+"]"}if("[object Object]"===f.call(t)){var o=[];for(var u in t)t.hasOwnProperty(u)&&o.push(r(u)+": "+r(t[u]));return"{"+o.join(", ")+"}"}}return'"'+t.toString().replace(c,i)+'"'}}()}; // eslint-disable-line
 
-// Konfiguration
+// Configuration
 var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
 var cocodaApiBase = "http://coli-conc.gbv.de/api/"
 var cocodaOpenAlwaysShowChoice = false
+var cocodaMsg = {
+  missingConceptsTitle: "Keine Normdaten gefunden",
+  missingConcept: "Im aktuellen Datensatz konnten keine Normdaten gefunden werden!",
+  listConceptsTitle: "Im aktuellen Datensatz gefundene Normdaten",
+  openTitle: "Cocoda öffnen",
+  openSelectConcept: "Mit welchem Normdatensatz soll Cocoda geöffnet werden?"
+}
+
+// WinIBW expects Windows-1252 character encoding, this file is UTF-8
+for(var key in cocodaMsg) {
+  cocodaMsg[key] = cocodaMsg[key].replace("ä",String.fromCharCode(0xE4))
+  cocodaMsg[key] = cocodaMsg[key].replace("ö",String.fromCharCode(0xF6))
+  cocodaMsg[key] = cocodaMsg[key].replace("ü",String.fromCharCode(0xFC))
+}
+
+function __cocodaConceptLine(concept, scheme) {
+  var line = concept.notation
+  if (scheme) {
+    line = scheme.notation + " " + line
+  }
+  if (concept.label) {
+    line += " (" + concept.label + ")"
+  }
+  return line
+}
+
+/**
+ * Shows a message box with the list of available concepts.
+ */
+function cocodaShowConcepts() { // eslint-disable-line no-unused-vars
+  var result = __cocodaGetConcepts()
+  var text = ""
+  for (var i = 0; i < result.length; i += 1) {
+    text += __cocodaConceptLine(result[i].concept, result[i].scheme) + "\n"
+  }
+  if (text == "") {
+    application.messageBox(cocodaMsg.missingConceptsTitle, cocodaMsg.missingConcepts, "alert-icon")
+  } else {
+    application.messageBox(cocodaMsg.listConceptsTitle, text, "message-icon")
+  }
+}
 
 /**
  * Opens Cocoda in the web browser.
@@ -18,7 +59,7 @@ function cocodaOpen() { // eslint-disable-line no-unused-vars
   var selectConcept
 
   if (result.length == 0) {
-    application.messageBox("Keine Konzepte gefunden", "Es konnten im aktuellen Datensatz keine Konzepte gefunden werden.", "alert-icon")
+    application.messageBox(cocodaMsg.missingConceptsTitle, cocodaMsg.missingConcepts, "alert-icon")
     return
   } else if (result.length == 1 && !cocodaOpenAlwaysShowChoice) {
     selectScheme = result[0].scheme
@@ -27,15 +68,9 @@ function cocodaOpen() { // eslint-disable-line no-unused-vars
     var thePrompter = utility.newPrompter()
     var conceptList = []
     for (i = 0; i < result.length; i += 1) {
-      var concept = result[i].concept
-      var scheme = result[i].scheme
-      var conceptLine = scheme.notation + " " + concept.notation
-      if (concept.label) {
-        conceptLine = conceptLine + " (" + concept.label + ")"
-      }
-      conceptList.push(conceptLine)
+      conceptList.push(__cocodaConceptLine(result[i].concept, result[i].scheme))
     }
-    var reply = thePrompter.select("Liste der Notationen", "Welche Notation wollen Sie in Cocoda anzeigen?", conceptList.join("\n"))
+    var reply = thePrompter.select(cocodaMsg.openTitle, cocodaMsg.openSelectConcept, conceptList.join("\n"))
     if (reply) {
       var match = reply.match(/([^ ]+) (.+?)( \(.+\))?$/)
       // Find match in result list
@@ -116,27 +151,6 @@ function cocodaMappings() { // eslint-disable-line no-unused-vars
   } else {
     application.messageBox("Fehler", message, "alert-icon")
   }
-}
-
-/**
- * Shows a message box with the list of available concepts.
- */
-function cocodaShowConcepts() { // eslint-disable-line no-unused-vars
-  var result = __cocodaGetConcepts()
-  var text = ""
-  for (var i = 0; i < result.length; i += 1) {
-    text += result[i].scheme.notation + " - " + result[i].concept.notation
-    if (result[i].concept.label) {
-      text += " (" + result[i].concept.label + ")"
-    }
-    text += "\n"
-  }
-  var icon = "message-icon"
-  if (text == "") {
-    icon = "alert-icon"
-    text = "Keine Konzepte gefunden."
-  }
-  application.messageBox("Gefundene Konzepte", text, icon)
 }
 
 /**
