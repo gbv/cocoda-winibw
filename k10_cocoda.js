@@ -7,7 +7,7 @@ var cocodaApiBase = "http://coli-conc.gbv.de/api/"
 var cocodaOpenAlwaysShowChoice = false
 var cocodaMsg = {
   missingConceptsTitle: "Keine Normdaten gefunden",
-  missingConcept: "Im aktuellen Datensatz konnten keine Normdaten gefunden werden!",
+  missingConcepts: "Im aktuellen Datensatz konnten keine Normdaten gefunden werden!",
   listConceptsTitle: "Im aktuellen Datensatz gefundene Normdaten",
   listMappingsTitle: "Passende Mappings",
   listMappings: "Folgende passenden Mappings sind in Cocoda vorhanden",
