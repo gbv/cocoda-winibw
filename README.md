@@ -45,9 +45,9 @@ Wenn man [Remmina](https://remmina.org/) benutzt, muss man erst die Aktion "Alle
 
 Cocoda-Funktionen als Shortcut und/oder Eintrag in der Funktionsleiste einrichten:
 
-Optionen -> Werkzeugleiste anpassen -> Kommandos -> Standardfunktionen -> `cocodaURL` und `cocodaMappings` -> Drag&Drop in Funktionsfeld Normdaten
+Optionen -> Werkzeugleiste anpassen -> Kommandos -> Standardfunktionen -> `cocodaOpen` und `cocodaMappings` -> Drag&Drop in Funktionsfeld Normdaten
 
-Skript per Funktionsleiste: Normdaten -> `cocodaURL` oder `cocodaMappings` für Datensatz ausführen
+Skript per Funktionsleiste: Normdaten -> `cocodaOpen` oder `cocodaMappings` für Datensatz ausführen
 
 Zusätzlich kann ein Tastatur-Shortcut vergeben werden.
 
@@ -70,8 +70,8 @@ Nach [Einrichtung des Skripts](#skript-einrichten) kann es über die Funktionsle
 
 Folgende Funktionen sind umgesetzt:
 
-* Öffnen von Cocoda aus Normdatensätzen der BK und RVK (`cocodaURL`)
-* Öffnen von Cocoda aus Titeldatensätzen mit BK-, GND- und/oder RVK-Verknüpfungen (`cocodaURL`)
+* Öffnen von Cocoda aus Normdatensätzen der BK und RVK (`cocodaOpen`)
+* Öffnen von Cocoda aus Titeldatensätzen mit BK-, GND- und/oder RVK-Verknüpfungen (`cocodaOpen`)
 * Anzeige von Mappings zu genannten Normdatensätzen/Titeldatensätzen (`cocodaMappings`)
 
 Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/cocoda-winibw/issues)).

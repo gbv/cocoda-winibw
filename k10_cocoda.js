@@ -1,9 +1,10 @@
 // JSON polyfill
 if(!JSON)var JSON={parse:function(sJSON){return eval("("+sJSON+")")},stringify:function(){function i(r){return t[r]||"\\u"+(r.charCodeAt(0)+65536).toString(16).substr(1)}var f=Object.prototype.toString,a=Array.isArray||function(r){return"[object Array]"===f.call(r)},t={'"':'\\"',"\\":"\\\\","\b":"\\b","\f":"\\f","\n":"\\n","\r":"\\r","\t":"\\t"},c=/[\\"\u0000-\u001F\u2028\u2029]/g;return function r(t){if(null==t)return"null";if("number"==typeof t)return isFinite(t)?t.toString():"null";if("boolean"==typeof t)return t.toString();if("object"==typeof t){if("function"==typeof t.toJSON)return r(t.toJSON());if(a(t)){for(var n="[",e=0;e<t.length;e++)n+=(e?", ":"")+r(t[e]);return n+"]"}if("[object Object]"===f.call(t)){var o=[];for(var u in t)t.hasOwnProperty(u)&&o.push(r(u)+": "+r(t[u]));return"{"+o.join(", ")+"}"}}return'"'+t.toString().replace(c,i)+'"'}}()}; // eslint-disable-line
 
+// Konfiguration
 var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
 var cocodaApiBase = "http://coli-conc.gbv.de/api/"
-var cocodaURLAlwaysShowChoice = false
+var cocodaOpenAlwaysShowChoice = false
 
 /**
  * Opens Cocoda in the web browser.
@@ -11,7 +12,7 @@ var cocodaURLAlwaysShowChoice = false
  * If there are no concepts found in the dataset, an alert will be shown.
  * If there are more than one concept found in the dataset, a prompt will be shown to select one of the concepts.
  */
-function cocodaURL() { // eslint-disable-line no-unused-vars
+function cocodaOpen() { // eslint-disable-line no-unused-vars
   var result = __cocodaGetConcepts()
   var selectScheme
   var selectConcept
@@ -19,7 +20,7 @@ function cocodaURL() { // eslint-disable-line no-unused-vars
   if (result.length == 0) {
     application.messageBox("Keine Konzepte gefunden", "Es konnten im aktuellen Datensatz keine Konzepte gefunden werden.", "alert-icon")
     return
-  } else if (result.length == 1 && !cocodaURLAlwaysShowChoice) {
+  } else if (result.length == 1 && !cocodaOpenAlwaysShowChoice) {
     selectScheme = result[0].scheme
     selectConcept = result[0].concept
   } else if (result.length > 1) {
