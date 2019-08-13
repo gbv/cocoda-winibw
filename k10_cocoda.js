@@ -9,6 +9,10 @@ var cocodaMsg = {
   missingConceptsTitle: "Keine Normdaten gefunden",
   missingConcept: "Im aktuellen Datensatz konnten keine Normdaten gefunden werden!",
   listConceptsTitle: "Im aktuellen Datensatz gefundene Normdaten",
+  listMappingsTitle: "Passende Mappings",
+  listMappings: "Folgende passenden Mappings sind in Cocoda vorhanden",
+  missingMappingsTitle: "Keine Normdaten-Mappings gefunden",
+  missingMappings: "In Cocoda konnten keine passenden Normdaten-Mappings gefunden werden",
   openTitle: "Cocoda öffnen",
   openSelectConcept: "Mit welchem Normdatensatz soll Cocoda geöffnet werden?"
 }
@@ -97,60 +101,64 @@ function cocodaOpen() { // eslint-disable-line no-unused-vars
  */
 function cocodaMappings() { // eslint-disable-line no-unused-vars
   var results = __cocodaGetConcepts()
+  if (results.length == 0) {
+    application.messageBox(cocodaMsg.missingConceptsTitle, cocodaMsg.missingConcepts, "alert-icon")
+    return
+  }
+
   var mappings
   var message
-  if (results.length == 0) {
+   
+  // Request mappings from API
+  var url = cocodaApiBase + "mappings?"
+  var conceptUris = []
+  for (i = 0; i < results.length; i += 1) {
+    conceptUris.push(encodeURIComponent(results[i].concept.uri))
+  }
+  url += "from=" + conceptUris.join("|") + "&direction=both"
+  try {
+    mappings = __cocodaHttpRequest(url)
+  } catch(error) {
     mappings = []
-    message = "Keine Konzepte im aktuellen Datensatz gefunden."
-  } else {
-    // Request mappings from API
-    var url = cocodaApiBase + "mappings?"
-    var conceptUris = []
-    for (i = 0; i < results.length; i += 1) {
-      conceptUris.push(encodeURIComponent(results[i].concept.uri))
-    }
-    url += "from=" + conceptUris.join("|") + "&direction=both"
-    try {
-      mappings = __cocodaHttpRequest(url)
-    } catch(error) {
-      mappings = []
-      message = "Fehler bei der API-Abfrage: " + error.message
-    }
+    message = "Fehler bei der API-Abfrage: " + error.message
   }
-  if (mappings.length) {
-    // Transform mappings into text form
-    message = ""
-    for (i = 0; i < mappings.length; i += 1) {
-      var mapping = mappings[i]
-      // Assuming there is always fromScheme/from with notations
-      message += mapping.fromScheme.notation[0] + " " + mapping.from.memberSet[0].notation[0]
-      // TODO: Integrate mapping types
-      message += " ---> "
-      if (mapping.toScheme && mapping.toScheme.notation) {
-        message += mapping.toScheme.notation[0] + " "
-      }
-      var toConcepts = mapping.to.memberSet || mapping.to.memberChoice
-      var toConceptNotations = []
-      for (j = 0; j < toConcepts.length; j += 1) {
-        if (toConcepts[j].notation) {
-          toConceptNotations.push(toConcepts[j].notation[0])
-        }
-      }
-      message += toConceptNotations.join(" | ")
-      message += "\n"
-      // Add creator
-      var creator = (mapping.creator && mapping.creator[0] && mapping.creator[0].prefLabel && (mapping.creator[0].prefLabel.de || mapping.creator[0].prefLabel.en)) || "unbekannt"
-      message += ".... Erstellt von: " + creator
-      if (mapping.created) {
-        message += " (" + mapping.created + ")"
-      }
-      message += "\n"
-    }
+  if (!mappings.length) {
+    application.messageBox(cocodaMsg.missingMappingsTitle, cocodaMsg.missingMappings, "alert-icon")
+    return
+  }
 
-    application.messageBox("Gefundene Mappings", message, "message-icon")
-  } else {
-    application.messageBox("Fehler", message, "alert-icon")
+  var mappingList = []
+
+  // Transform mappings into text form
+  for (i = 0; i < mappings.length; i += 1) {
+    var text = ""
+    var mapping = mappings[i]
+    // Assuming there is always fromScheme/from with notations
+    text += __cocodaConceptLine(mapping.from.memberSet[0], mapping.fromScheme)
+    // TODO: Integrate mapping types
+    text += " --> "
+    if (mapping.toScheme && mapping.toScheme.notation) {
+      text += mapping.toScheme.notation[0] + " "
+    }
+    var toConcepts = mapping.to.memberSet || mapping.to.memberChoice
+    var toConceptNotations = []
+    for (j = 0; j < toConcepts.length; j += 1) {
+      if (toConcepts[j].notation) {
+        toConceptNotations.push(toConcepts[j].notation[0])
+      }
+    }
+    text += toConceptNotations.join(" & ")
+    var creator = (mapping.creator && mapping.creator[0] && mapping.creator[0].prefLabel && (mapping.creator[0].prefLabel.de || mapping.creator[0].prefLabel.en)) || "?"
+    text += " [" + creator
+    if (mapping.created) {
+      text += ", " + mapping.created
+    }
+    text += "]"
+    mappingList.push(text)
   }
+
+  var thePrompter = utility.newPrompter()
+  var reply = thePrompter.select(cocodaMsg.listMappingsTitle, cocodaMsg.listMappings, mappingList.join("\n"))
 }
 
 /**
