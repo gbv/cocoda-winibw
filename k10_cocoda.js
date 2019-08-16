@@ -218,7 +218,14 @@ function __cocodaGetConcepts() {
               label: match[3]
             }
           }
-        }
+        } else {
+			    var notation = picaSubfield(field, "a")
+			    if (notation) {
+				    return {
+					    notation: notation
+				    }
+			    }
+		    }        
       },
       _008A: "kr"
     },
