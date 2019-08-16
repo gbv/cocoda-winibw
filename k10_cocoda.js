@@ -219,13 +219,13 @@ function __cocodaGetConcepts() {
             }
           }
         } else {
-			    var notation = picaSubfield(field, "a")
-			    if (notation) {
-				    return {
-					    notation: notation
-				    }
-			    }
-		    }        
+          var notation = picaSubfield(field, "a")
+          if (notation) {
+            return {
+              notation: notation
+            }
+          }
+        }        
       },
       _008A: "kr"
     },
