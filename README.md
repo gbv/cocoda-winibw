@@ -72,6 +72,8 @@ Firefox festgelegt werden:
 
 Nach [Einrichtung des Skripts](#skript-einrichten) kann es über die Funktionsleiste aufgerufen werden.
 
+*Siehe auch die [Anleitung](tutorial.md)*
+
 Folgende Funktionen sind umgesetzt:
 
 * Öffnen von Cocoda aus Normdatensätzen der BK und RVK (`cocodaOpen`)
