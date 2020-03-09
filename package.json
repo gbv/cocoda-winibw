@@ -25,7 +25,7 @@
   "homepage": "https://github.com/gbv/cocoda-winibw#readme",
   "devDependencies": {
     "eslint": "^5.16.0",
-    "eslint-config-gbv": "git+https://github.com/gbv/eslint-config-gbv.git",
+    "eslint-config-gbv": "github:gbv/eslint-config-gbv#ecaf810",
     "mocha": "^5.2.0"
   }
 }
