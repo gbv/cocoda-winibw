@@ -189,7 +189,7 @@ function __cocodaGetConcepts() {
 
   var conceptSchemes = {
     BK: {
-      uri: "http://uri.gbv.de/terminology/bk",
+      uri: "http://uri.gbv.de/terminology/bk/",
       namespace: "http://uri.gbv.de/terminology/bk/",
       FIELD: "045Q",
       EXTRACT: function(field) {
@@ -205,7 +205,7 @@ function __cocodaGetConcepts() {
     },
 
     RVK: {
-      uri: "http://uri.gbv.de/terminology/rvk",
+      uri: "http://uri.gbv.de/terminology/rvk/",
       namespace: "http://rvk.uni-regensburg.de/nt/",
       FIELD: "045R",
       EXTRACT: function(field) {
