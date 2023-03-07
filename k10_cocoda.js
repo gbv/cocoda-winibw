@@ -231,7 +231,7 @@ function __cocodaGetConcepts() {
     },
 
     DDC: {
-      uri: "http://dewey.info/scheme/edition/e23",
+      uri: "http://dewey.info/scheme/edition/e23/",
       namespace: "http://dewey.info/scheme/edition/e23/",
       FIELD: "045F"
     },
