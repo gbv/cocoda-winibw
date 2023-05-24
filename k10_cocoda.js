@@ -106,7 +106,7 @@ function cocodaMappings() { // eslint-disable-line no-unused-vars
     return
   }
 
-  var mappings
+  var mappings, message
    
   // Request mappings from API
   var url = cocodaApiBase + "mappings?"
@@ -122,7 +122,7 @@ function cocodaMappings() { // eslint-disable-line no-unused-vars
     message = "Fehler bei der API-Abfrage: " + error.message
   }
   if (!mappings.length) {
-    application.messageBox(cocodaMsg.missingMappingsTitle, cocodaMsg.missingMappings, "alert-icon")
+    application.messageBox(cocodaMsg.missingMappingsTitle, message || cocodaMsg.missingMappings, "alert-icon")
     return
   }
 
