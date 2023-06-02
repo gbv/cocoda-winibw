@@ -153,7 +153,7 @@ function cocodaMappings() {
     var creator = (mapping.creator && mapping.creator[0] && mapping.creator[0].prefLabel && (mapping.creator[0].prefLabel.de || mapping.creator[0].prefLabel.en)) || "?"
     text += " [" + creator
     if (mapping.created) {
-      text += ", " + mapping.created
+      text += ", " + mapping.created.slice(0, 10)
     }
     text += "]"
     mappingList.push(text)
