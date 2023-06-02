@@ -3,7 +3,7 @@ if(!JSON)var JSON={parse:function(sJSON){return eval("("+sJSON+")")},stringify:f
 
 // Configuration
 var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
-var cocodaApiBase = "http://coli-conc.gbv.de/api/"
+var cocodaApiBase = "https://coli-conc.gbv.de/api/"
 var cocodaOpenAlwaysShowChoice = false
 var cocodaMsg = {
   missingConceptsTitle: "Keine Normdaten gefunden",
@@ -38,7 +38,8 @@ function __cocodaConceptLine(concept, scheme) {
 /**
  * Shows a message box with the list of available concepts.
  */
-function cocodaShowConcepts() { // eslint-disable-line no-unused-vars
+// eslint-disable-next-line no-unused-vars
+function cocodaShowConcepts() {
   var result = __cocodaGetConcepts()
   var text = ""
   for (var i = 0; i < result.length; i += 1) {
@@ -57,7 +58,8 @@ function cocodaShowConcepts() { // eslint-disable-line no-unused-vars
  * If there are no concepts found in the dataset, an alert will be shown.
  * If there are more than one concept found in the dataset, a prompt will be shown to select one of the concepts.
  */
-function cocodaOpen() { // eslint-disable-line no-unused-vars
+// eslint-disable-next-line no-unused-vars
+function cocodaOpen() {
   var result = __cocodaGetConcepts()
   var selectScheme
   var selectConcept
@@ -71,7 +73,7 @@ function cocodaOpen() { // eslint-disable-line no-unused-vars
   } else if (result.length > 1) {
     var thePrompter = utility.newPrompter()
     var conceptList = []
-    for (i = 0; i < result.length; i += 1) {
+    for (var i = 0; i < result.length; i += 1) {
       conceptList.push(__cocodaConceptLine(result[i].concept, result[i].scheme))
     }
     var reply = thePrompter.select(cocodaMsg.openTitle, cocodaMsg.openSelectConcept, conceptList.join("\n"))
@@ -79,10 +81,10 @@ function cocodaOpen() { // eslint-disable-line no-unused-vars
       var match = reply.match(/([^ ]+) (.+?)( \(.+\))?$/)
       // Find match in result list
       // TODO: - Maybe polyfill Array.find()
-      for (i = 0; i < result.length; i += 1) {
-        if (result[i].scheme.notation == match[1] && result[i].concept.notation == match[2]) {
-          selectScheme = result[i].scheme
-          selectConcept = result[i].concept
+      for (var j = 0; j < result.length; j += 1) {
+        if (result[j].scheme.notation == match[1] && result[j].concept.notation == match[2]) {
+          selectScheme = result[j].scheme
+          selectConcept = result[j].concept
         }
       }
     }
@@ -92,14 +94,15 @@ function cocodaOpen() { // eslint-disable-line no-unused-vars
   if (selectScheme && selectConcept) {
     var url = cocodaBase + "?fromScheme=" + encodeURIComponent(selectScheme.uri)
             + "&from=" + encodeURIComponent(selectConcept.uri)
-    application.shellExecute(url, 5, "open", "")
+    application.shellExecute(url, "open", "")
   }
 }
 
 /**
  * Queries all mappings related to the current dataset.
  */
-function cocodaMappings() { // eslint-disable-line no-unused-vars
+// eslint-disable-next-line no-unused-vars
+function cocodaMappings() {
   var results = __cocodaGetConcepts()
   if (results.length == 0) {
     application.messageBox(cocodaMsg.missingConceptsTitle, cocodaMsg.missingConcepts, "alert-icon")
@@ -107,11 +110,11 @@ function cocodaMappings() { // eslint-disable-line no-unused-vars
   }
 
   var mappings, message
-   
+
   // Request mappings from API
   var url = cocodaApiBase + "mappings?"
   var conceptUris = []
-  for (i = 0; i < results.length; i += 1) {
+  for (var i = 0; i < results.length; i += 1) {
     conceptUris.push(encodeURIComponent(results[i].concept.uri))
   }
   url += "from=" + conceptUris.join("|") + "&direction=both"
@@ -129,9 +132,9 @@ function cocodaMappings() { // eslint-disable-line no-unused-vars
   var mappingList = []
 
   // Transform mappings into text form
-  for (i = 0; i < mappings.length; i += 1) {
+  for (var j = 0; j < mappings.length; j += 1) {
     var text = ""
-    var mapping = mappings[i]
+    var mapping = mappings[j]
     // Assuming there is always fromScheme/from with notations
     text += __cocodaConceptLine(mapping.from.memberSet[0], mapping.fromScheme)
     // TODO: Integrate mapping types
@@ -141,9 +144,9 @@ function cocodaMappings() { // eslint-disable-line no-unused-vars
     }
     var toConcepts = mapping.to.memberSet || mapping.to.memberChoice
     var toConceptNotations = []
-    for (j = 0; j < toConcepts.length; j += 1) {
-      if (toConcepts[j].notation) {
-        toConceptNotations.push(toConcepts[j].notation[0])
+    for (var k = 0; k < toConcepts.length; k += 1) {
+      if (toConcepts[k].notation) {
+        toConceptNotations.push(toConcepts[k].notation[0])
       }
     }
     text += toConceptNotations.join(" & ")
@@ -225,7 +228,7 @@ function __cocodaGetConcepts() {
               notation: notation
             }
           }
-        }        
+        }
       },
       _008A: "kr"
     },
@@ -268,7 +271,7 @@ function __cocodaGetConcepts() {
   if (application.activeWindow.materialCode == "Tk") {
     var classification = picaValue("008A", "a")
     if (classification) {
-      for (conceptScheme in conceptSchemes) {
+      for (var conceptScheme in conceptSchemes) {
         conceptScheme = conceptSchemes[conceptScheme]
         if (conceptScheme._008A == classification) {
           scheme = conceptScheme
@@ -315,8 +318,8 @@ function __cocodaGetConcepts() {
   }
 
   // Add concept URIs to result
-  for (i = 0; i < result.length; i += 1) {
-    result[i].concept.uri = result[i].scheme.namespace + encodeURIComponent(result[i].concept.notation)
+  for (var j = 0; j < result.length; j += 1) {
+    result[j].concept.uri = result[j].scheme.namespace + encodeURIComponent(result[j].concept.notation)
   }
 
   return result
@@ -333,8 +336,7 @@ function __cocodaGetConcepts() {
 function __cocodaHttpRequest(url, method, data) {
   method = method || "GET"
   data = data || null
-  var XMLHttpRequest  = Components.Constructor("@mozilla.org/xmlextras/xmlhttprequest;1", "nsIXMLHttpRequest")
-  var request = XMLHttpRequest()
+  var request = new ActiveXObject("MSXML2.ServerXMLHTTP.6.0")
   request.open(method, url, false) // third argument `false` => synchronous request
   request.send(data)
   if (request.readyState == 4 && request.status == 200) {
