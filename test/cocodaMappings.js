@@ -1,7 +1,7 @@
 const assert = require("assert")
 const { readFileSync } = require("fs")
 const querystring = require("querystring")
-const scriptFile = __dirname + "/../scripts/k10_cocoda.js"
+const scriptFile = __dirname + "/../scripts/kxp_cocoda.js"
 
 // set up WinIBW mocking
 const { mock, application, Components, utility, __zdbGetExpansionFromP3VTX, feldAnalysePlus } = require("./mock")() // eslint-disable-line no-unused-vars

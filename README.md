@@ -28,15 +28,15 @@ Chrome-Browser als [Standard-Browser](#standard-browser-festlegen).
 
 1. Einmalig in `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup.js` (erfordert ggf. Windows Admin-Rechte) Folgendes eintragen, damit das Skript beim Neustart von WinWIBW geladen wird:
 
-   `pref("ibw.standardScripts.script.80", "resource:/scripts/k10_cocoda.js");`
+   `pref("ibw.standardScripts.script.80", "resource:/scripts/kxp_cocoda.js");`
 
   Dabei muss `80` ggf. durch eine andere fortlaufende Nummer ersetzt werden. Alternativ kann diese Zeile auch in eine eigene Datei `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup_cocoda.js` eingetragen werden um den Eintrag bei Updates von `setup.js` nicht zu verlieren.
 
-2. Das Skript [`scripts/k10_cocoda.js`](https://github.com/gbv/cocoda-winibw/raw/master/scripts/k10_cocoda.js) herunterladen und nach `C:\Program Files (x86)\WinIBW30_K10plus\scripts\` kopieren. Statt den Download per Hand durchzuführen können auch folgende Kommandos auf der Powershell ausgeführt werden:
+2. Das Skript [`scripts/kxp_cocoda.js`](https://github.com/gbv/cocoda-winibw/raw/master/scripts/kxp_cocoda.js) herunterladen und nach `C:\Program Files (x86)\WinIBW30_K10plus\scripts\` kopieren. Statt den Download per Hand durchzuführen können auch folgende Kommandos auf der Powershell ausgeführt werden:
 
     ~~~
     Import-Module bitstransfer
-    start-bitstransfer -source https://github.com/gbv/cocoda-winibw/raw/master/scripts/k10_cocoda.js -destination "C:\Program Files (x86)\WinIBW30_K10plus\scripts"
+    start-bitstransfer -source https://github.com/gbv/cocoda-winibw/raw/master/scripts/kxp_cocoda.js -destination "C:\Program Files (x86)\WinIBW30_K10plus\scripts"
     ~~~
 
 3. Um die Scripte neu einzulesen, kann man entweder die WinIBW3 neu starten oder die Tastenkombination SHIFT+STRG+ALT+R verwenden.
