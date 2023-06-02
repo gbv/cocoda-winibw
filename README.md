@@ -10,7 +10,7 @@ Katalogisierungsclient [WinIBW3] mit der Mapping-Anwendung [Cocoda].
 [WinIBW3]: https://wiki.k10plus.de/display/K10PLUS/WinIBW-Handbuch
 [Cocoda]: https://coli-conc.gbv.de/cocoda/
 
-## Inhalt
+## Inhalt <!-- omit in toc -->
 - [Installation](#installation)
   - [WinIBW-Skript installieren](#winibw-skript-installieren)
   - [Skript einrichten](#skript-einrichten)
@@ -32,11 +32,11 @@ Chrome-Browser als [Standard-Browser](#standard-browser-festlegen).
 
   Dabei muss `80` ggf. durch eine andere fortlaufende Nummer ersetzt werden. Alternativ kann diese Zeile auch in eine eigene Datei `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup_cocoda.js` eingetragen werden um den Eintrag bei Updates von `setup.js` nicht zu verlieren.
 
-2. Das Skript [`k10_cocoda.js`](https://github.com/gbv/cocoda-winibw/raw/master/k10_cocoda.js) herunterladen und nach `C:\Program Files (x86)\WinIBW30_K10plus\scripts\` kopieren. Statt den Download per Hand durchzuführen können auch folgende Kommandos auf der Powershell ausgeführt werden:
+2. Das Skript [`scripts/k10_cocoda.js`](https://github.com/gbv/cocoda-winibw/raw/master/scripts/k10_cocoda.js) herunterladen und nach `C:\Program Files (x86)\WinIBW30_K10plus\scripts\` kopieren. Statt den Download per Hand durchzuführen können auch folgende Kommandos auf der Powershell ausgeführt werden:
 
     ~~~
     Import-Module bitstransfer
-    start-bitstransfer -source https://github.com/gbv/cocoda-winibw/raw/master/k10_cocoda.js -destination "C:\Program Files (x86)\WinIBW30_K10plus\scripts"
+    start-bitstransfer -source https://github.com/gbv/cocoda-winibw/raw/master/scripts/k10_cocoda.js -destination "C:\Program Files (x86)\WinIBW30_K10plus\scripts"
     ~~~
 
 3. Um die Scripte neu einzulesen, kann man entweder die WinIBW3 neu starten oder die Tastenkombination SHIFT+STRG+ALT+R verwenden.
