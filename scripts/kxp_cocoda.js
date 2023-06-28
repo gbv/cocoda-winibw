@@ -49,13 +49,6 @@ var cocodaMsg = {
   openSelectConcept: "Mit welchem Normdatensatz soll Cocoda geöffnet werden?"
 }
 
-// WinIBW expects Windows-1252 character encoding, this file is UTF-8
-for(var key in cocodaMsg) {
-  cocodaMsg[key] = cocodaMsg[key].replace("ä",String.fromCharCode(0xE4))
-  cocodaMsg[key] = cocodaMsg[key].replace("ö",String.fromCharCode(0xF6))
-  cocodaMsg[key] = cocodaMsg[key].replace("ü",String.fromCharCode(0xFC))
-}
-
 // Labels for mapping types
 var mappingTypes = {
   "http://www.w3.org/2004/02/skos/core#exactMatch": "exakte Übereinstimmung",
