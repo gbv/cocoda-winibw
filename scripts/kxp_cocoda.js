@@ -31,39 +31,6 @@ Array.prototype.find = function (callback) {
   return undefined
 }
 
-// Required utility functions copied from https://winibw.gbv.de/update_v4/scripts/kxp_public.js
-function __zdbGetExpansionFromP3VTX__cocoda(){
-  var satz = application.activeWindow.getVariable("P3VTX")
-  //alert("!"+satz+"!")
-  satz = application.activeWindow.getVariable("P3VTX")
-  satz = satz.replace("<ISBD><TABLE>","")
-  satz = satz.replace("<\/TABLE>","")
-  satz = satz.replace(/<BR>/g,"\n")
-  satz = satz.replace(/^$/gm,"")
-  satz = satz.replace(/^Eingabe:.*$/gm,"")
-  satz = satz.replace(/^Mailbox:.*$/gm,"")
-  satz = satz.replace(/^ A.*$/gm,"") //soll AufsÃ¤tze treffen, davor ein Blank
-  satz = satz.replace(/^B.*$/gm,"") //soll 'BÃ¤nde' treffen, Umlaut???
-  satz = satz.replace(/<a[^<]*>/g,"")
-  satz = satz.replace(/<\/a>/g,"")
-  satz = satz.replace(/\r/g, "\n")
-  // eslint-disable-next-line no-control-regex
-  satz = satz.replace(/\u001b./g,"") // replace /n entfernt, weil hier die $8 Expansion durch Zeilenbruch abgetrennt wurde
-  satz = __zdbUnescapeHtml__cocoda(satz)
-  return satz
-}
-function __zdbUnescapeHtml__cocoda(text){
-  var map = {
-    "&amp;" : "&",
-    "&lt;" : "<",
-    "&gt;": ">",
-    "&quot;" : "\"",
-    "&#039;" : "'",
-    "&nbsp;" : " "
-  }
-  return text.replace(/&amp;|&lt;|&gt;|&quot;|&#039;|&nbsp;/g, function(m) { return map[m] })
-}
-
 // Configuration
 var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
 var cocodaApiBase = "https://coli-conc.gbv.de/api/"
@@ -391,7 +358,7 @@ function __cocodaGetConcepts() {
   else {
 
     result = new Array()
-    var record = __zdbGetExpansionFromP3VTX__cocoda() // kopiert den Titel incl. Expansionen.
+    var record = __zdbGetExpansionFromP3VTX() // kopiert den Titel incl. Expansionen.
     var fields = record.split("\n")
     for (var i=0; i < fields.length; i++) {
       var tag = fields[i].substr(0,4)
