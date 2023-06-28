@@ -16,38 +16,11 @@ var cocodaMsg = {
   openSelectConcept: "Mit welchem Normdatensatz soll Cocoda geöffnet werden?"
 }
 
-// JSON polyfill
+// Polyfills (JSON, Array.find, Array.map)
+// See also: https://github.com/gbv/cocoda-winibw/wiki/JavaScript-Polyfills
 if(!JSON)var JSON={parse:function(sJSON){return eval("("+sJSON+")")},stringify:function(){function i(r){return t[r]||"\\u"+(r.charCodeAt(0)+65536).toString(16).substr(1)}var f=Object.prototype.toString,a=Array.isArray||function(r){return"[object Array]"===f.call(r)},t={'"':'\\"',"\\":"\\\\","\b":"\\b","\f":"\\f","\n":"\\n","\r":"\\r","\t":"\\t"},c=/[\\"\u0000-\u001F\u2028\u2029]/g;return function r(t){if(null==t)return"null";if("number"==typeof t)return isFinite(t)?t.toString():"null";if("boolean"==typeof t)return t.toString();if("object"==typeof t){if("function"==typeof t.toJSON)return r(t.toJSON());if(a(t)){for(var n="[",e=0;e<t.length;e++)n+=(e?", ":"")+r(t[e]);return n+"]"}if("[object Object]"===f.call(t)){var o=[];for(var u in t)t.hasOwnProperty(u)&&o.push(r(u)+": "+r(t[u]));return"{"+o.join(", ")+"}"}}return'"'+t.toString().replace(c,i)+'"'}}()}; // eslint-disable-line
-
-// Array .map and .find polyfills adjusted from https://medium.com/nerd-for-tech/polyfill-for-array-map-filter-and-reduce-e3e637e0d73b
-Array.prototype.map = function (callbackFn) {
-  var arr = []
-  for (var i = 0; i < this.length; i++) {
-    arr.push(callbackFn(this[i], i, this))
-  }
-  return arr
-}
-// Array.find polyfill from https://vanillajstoolkit.com/polyfills/arrayfind/
-Array.prototype.find = function (callback) {
-  if (this == null) {
-    throw new TypeError("\"this\" is null or not defined")
-  }
-  var o = Object(this)
-  var len = o.length >>> 0
-  if (typeof callback !== "function") {
-    throw new TypeError("callback must be a function")
-  }
-  var thisArg = arguments[1]
-  var k = 0
-  while (k < len) {
-    var kValue = o[k]
-    if (callback.call(thisArg, kValue, k, o)) {
-      return kValue
-    }
-    k++
-  }
-  return undefined
-}
+Array.prototype.find = Array.prototype.find || function (r) { if ("function" != typeof r) throw new TypeError("callback must be a function"); for (var t = Object(this), n = arguments[1], o = 0; o < t.length; o++) { var e = t[o]; if (r.call(n, e, o, t)) return e } }
+Array.prototype.map || (Array.prototype.map = function (r) { var t, n, o; if (null == this) throw new TypeError("this is null or not defined"); var e = Object(this), i = e.length >>> 0; if ("function" != typeof r) throw new TypeError(r + " is not a function"); for (1 < arguments.length && (t = arguments[1]), n = new Array(i), o = 0; o < i;) { var a, p; o in e && (a = e[o], p = r.call(t, a, o, e), n[o] = p), o++ } return n })
 
 // Labels for mapping types
 var mappingTypes = {
