@@ -345,7 +345,7 @@ function __cocodaGetConcepts() {
       var tag = fields[i].substr(0,4)
       for (var schemeNotation in conceptSchemes) {
         scheme = conceptSchemes[schemeNotation]
-        scheme.notation = schemeNotation
+        scheme.notation = [schemeNotation]
         if (tag == scheme.FIELD && scheme.EXTRACT) {
           concept = scheme.EXTRACT(fields[i])
           if (concept) {
@@ -359,9 +359,11 @@ function __cocodaGetConcepts() {
     }
   }
 
-  // Add concept URIs to result
   for (var j = 0; j < result.length; j += 1) {
+    // Add concept URIs to result
     result[j].concept.uri = result[j].scheme.namespace + encodeURIComponent(result[j].concept.notation)
+    // Notation as array
+    result[j].concept.notation = [result[j].concept.notation]
   }
 
   return result
