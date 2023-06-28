@@ -56,6 +56,15 @@ for(var key in cocodaMsg) {
   cocodaMsg[key] = cocodaMsg[key].replace("ü",String.fromCharCode(0xFC))
 }
 
+// Labels for mapping types
+var mappingTypes = {
+  "http://www.w3.org/2004/02/skos/core#exactMatch": "exakte Übereinstimmung",
+  "http://www.w3.org/2004/02/skos/core#closeMatch": "hohe Übereinstimmung",
+  "http://www.w3.org/2004/02/skos/core#broadMatch": "allgemeinere Bedeutung",
+  "http://www.w3.org/2004/02/skos/core#narrowMatch": "spezifischere Bedeutung",
+  "http://www.w3.org/2004/02/skos/core#relatedMatch": "verwandte Bedeutung"
+}
+
 /**
  * Offers a selection of available coli-conc functions.
  */
@@ -213,8 +222,12 @@ function cocodaMappings() {
       }
     }
     text += toConceptNotations.join(" & ")
-    var creator = (mapping.creator && mapping.creator[0] && mapping.creator[0].prefLabel && (mapping.creator[0].prefLabel.de || mapping.creator[0].prefLabel.en)) || "?"
-    text += " [" + creator
+    var creator = (mapping.creator && mapping.creator[0] && mapping.creator[0].prefLabel && (mapping.creator[0].prefLabel.de || mapping.creator[0].prefLabel.en)) || "unbekannt"
+    text += " [von " + creator
+    var typeLabel = mappingTypes[mapping.type && mapping.type[0]]
+    if (typeLabel) {
+      text += ", " + typeLabel
+    }
     if (mapping.created) {
       text += ", " + mapping.created.slice(0, 10)
     }
