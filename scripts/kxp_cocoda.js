@@ -88,9 +88,9 @@ function coli_conc() {
 }
 
 function __cocodaConceptLine(concept, scheme) {
-  var line = concept.notation
+  var line = concept.notation[0]
   if (scheme) {
-    line = scheme.notation + " " + line
+    line = scheme.notation[0] + " " + line
   }
   if (concept.label) {
     line += " (" + concept.label + ")"
@@ -203,7 +203,7 @@ function cocodaMappings() {
     // TODO: Integrate mapping types
     text += " --> "
     if (mapping.toScheme && mapping.toScheme.notation) {
-      text += mapping.toScheme.notation[0] + " "
+      text += mapping.toScheme.notation[0].toUpperCase() + " "
     }
     var toConcepts = mapping.to.memberSet || mapping.to.memberChoice
     var toConceptNotations = []
