@@ -1,3 +1,21 @@
+// Configuration
+var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
+var cocodaApiBase = "https://coli-conc.gbv.de/api/"
+var cocodaOpenAlwaysShowChoice = false
+var cocodaMsg = {
+  coliConcFunctionsTitle: "coli-conc Funktionen",
+  coliConcFunctionsText: "Die coli-conc Integration bietet folgende Funktionen:",
+  missingConceptsTitle: "Keine Normdaten gefunden",
+  missingConcepts: "Im aktuellen Datensatz konnten keine Normdaten gefunden werden!",
+  listConceptsTitle: "Im aktuellen Datensatz gefundene Normdaten",
+  listMappingsTitle: "Passende Mappings",
+  listMappings: "Folgende passenden Mappings sind in Cocoda vorhanden",
+  missingMappingsTitle: "Keine Normdaten-Mappings gefunden",
+  missingMappings: "In Cocoda konnten keine passenden Normdaten-Mappings gefunden werden",
+  openTitle: "Cocoda öffnen",
+  openSelectConcept: "Mit welchem Normdatensatz soll Cocoda geöffnet werden?"
+}
+
 // JSON polyfill
 if(!JSON)var JSON={parse:function(sJSON){return eval("("+sJSON+")")},stringify:function(){function i(r){return t[r]||"\\u"+(r.charCodeAt(0)+65536).toString(16).substr(1)}var f=Object.prototype.toString,a=Array.isArray||function(r){return"[object Array]"===f.call(r)},t={'"':'\\"',"\\":"\\\\","\b":"\\b","\f":"\\f","\n":"\\n","\r":"\\r","\t":"\\t"},c=/[\\"\u0000-\u001F\u2028\u2029]/g;return function r(t){if(null==t)return"null";if("number"==typeof t)return isFinite(t)?t.toString():"null";if("boolean"==typeof t)return t.toString();if("object"==typeof t){if("function"==typeof t.toJSON)return r(t.toJSON());if(a(t)){for(var n="[",e=0;e<t.length;e++)n+=(e?", ":"")+r(t[e]);return n+"]"}if("[object Object]"===f.call(t)){var o=[];for(var u in t)t.hasOwnProperty(u)&&o.push(r(u)+": "+r(t[u]));return"{"+o.join(", ")+"}"}}return'"'+t.toString().replace(c,i)+'"'}}()}; // eslint-disable-line
 
@@ -29,24 +47,6 @@ Array.prototype.find = function (callback) {
     k++
   }
   return undefined
-}
-
-// Configuration
-var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
-var cocodaApiBase = "https://coli-conc.gbv.de/api/"
-var cocodaOpenAlwaysShowChoice = false
-var cocodaMsg = {
-  coliConcFunctionsTitle: "coli-conc Funktionen",
-  coliConcFunctionsText: "Die coli-conc Integration bietet folgende Funktionen:",
-  missingConceptsTitle: "Keine Normdaten gefunden",
-  missingConcepts: "Im aktuellen Datensatz konnten keine Normdaten gefunden werden!",
-  listConceptsTitle: "Im aktuellen Datensatz gefundene Normdaten",
-  listMappingsTitle: "Passende Mappings",
-  listMappings: "Folgende passenden Mappings sind in Cocoda vorhanden",
-  missingMappingsTitle: "Keine Normdaten-Mappings gefunden",
-  missingMappings: "In Cocoda konnten keine passenden Normdaten-Mappings gefunden werden",
-  openTitle: "Cocoda öffnen",
-  openSelectConcept: "Mit welchem Normdatensatz soll Cocoda geöffnet werden?"
 }
 
 // Labels for mapping types
