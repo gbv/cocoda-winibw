@@ -68,27 +68,23 @@ function createMock() {
     messageBox: () => {}
   }
 
-  const Components = {
-    Constructor: function() {
-      return function() {
-        var result = {
-          readyState: 0,
-          status: 404,
-          responseText: "",
-          url: null
-        }
-        result.open = function(method, url) {
-          result.url = url
-        }
-        result.send = function() {
-          result.readyState = 4
-          result.status = 200
-          result.responseText = []
-          mock.apiURL = result.url
-        }
-        return result
-      }
+  const ActiveXObject = function () {
+    var result = {
+      readyState: 0,
+      status: 404,
+      responseText: "",
+      url: null
     }
+    result.open = function (method, url) {
+      result.url = url
+    }
+    result.send = function () {
+      result.readyState = 4
+      result.status = 200
+      result.responseText = []
+      mock.apiURL = result.url
+    }
+    return result
   }
 
   const mock = {
@@ -107,7 +103,7 @@ function createMock() {
   return {
     mock,
     application,
-    Components,
+    ActiveXObject,
     utility,
     __zdbGetExpansionFromP3VTX
   }

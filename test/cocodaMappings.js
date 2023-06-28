@@ -4,13 +4,13 @@ const querystring = require("querystring")
 const scriptFile = __dirname + "/../scripts/kxp_cocoda.js"
 
 // set up WinIBW mocking
-const { mock, application, Components, utility, __zdbGetExpansionFromP3VTX, feldAnalysePlus } = require("./mock")() // eslint-disable-line no-unused-vars
+const { mock, application, ActiveXObject, utility, __zdbGetExpansionFromP3VTX, feldAnalysePlus } = require("./mock")() // eslint-disable-line no-unused-vars
 
 // scriptFile is no ES module wo we need to eval it
 eval(readFileSync(scriptFile).toString())
 
 function expectURL(query) {
-  assert.equal(mock.apiURL, "http://coli-conc.gbv.de/api/mappings?" + querystring.stringify(query))
+  assert.equal(mock.apiURL, "https://coli-conc.gbv.de/api/mappings?" + querystring.stringify(query))
 }
 
 // run tests
