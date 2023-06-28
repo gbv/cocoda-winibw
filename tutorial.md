@@ -2,19 +2,24 @@
 
 Nach erfolgreicher Installation und Einrichtung können die Cocoda-Funktionen aus dem Funktionsmenu genutzt werden.
 
-## Cocoda öffnen
+![](img/coli-conc_funktionen.png)
 
-![](img/screenshot-cocoda-open-1.png)
+## Cocoda öffnen
 
 Falls mehrere Normdaten im Datensatz erkannt wurden, wird zunächst ein Auswahlmenu angeboten:
 
-![](img/screenshot-cocoda-open-2.png)
+![](img/cocoda_öffnen.png)
 
 Es öffnet sich der Browser mit Cocoda und dem ausgewählten Normdatensatz:
 
-![](img/screenshot-cocoda-bk15.87.png)
+![](img/cocoda-bk_15.87.png)
 
-## Mappings Nachschlagen
+## Mappings nachschlagen
 
-Per JSKOS API können Mappings aus Cocoda (bzw. aus der von Cocoda verwendeten Konkordanz--Registry) nachgeschlagen und in WinIBW angezeigt werden. Es ist jedoch noch unklar was anschließend mit den Mappings geschehen soll. Die Zahl der Mappings wird zudem schnell sehr unübersichtlich weshalb vermutlich weitere Filter notwendig sind.
+Per JSKOS API können Mappings aus Cocoda (bzw. aus dem von Cocoda verwendeten Konkordanz-Register) nachgeschlagen und in WinIBW angezeigt werden. Aktuell ist lediglich die Anzeige der Mappings möglich.
 
+![](img/passende_mappings.png)
+
+## Normdaten/Konzepte anzeigen
+
+![](img/normdaten.png)

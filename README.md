@@ -1,76 +1,68 @@
 # Integration von WinIBW und Cocoda
 
-[![Build Status](https://travis-ci.org/gbv/cocoda-winibw.svg?branch=master)](https://travis-ci.org/gbv/cocoda-winibw)
-
 Dieses Repository enthält Skripte und Anleitungen zur Integration des
-Katalogisierungsclient [WinIBW3] mit der Mapping-Anwendung [Cocoda].
+Katalogisierungsclient [WinIBW4] mit der Mapping-Anwendung [Cocoda].
 
-*Achtung: Die Integration befindet sich noch im Aufbau und ist nicht für den Produktivbetrieb gedacht!*
+*Achtung: Die Integration befindet sich noch im Aufbau und ist nicht für den Produktivbetrieb gedacht! Des Weiteren ist zu beachten, dass WinIBW4 zum aktuellen Zeitpunkt noch in der Beta und nicht generell verfügbar ist.*
 
-[WinIBW3]: https://wiki.k10plus.de/display/K10PLUS/WinIBW-Handbuch
+[WinIBW4]: https://wiki.k10plus.de/display/KBSZ/WinIBW4
 [Cocoda]: https://coli-conc.gbv.de/cocoda/
 
 ## Inhalt <!-- omit in toc -->
 - [Installation](#installation)
-  - [WinIBW-Skript installieren](#winibw-skript-installieren)
-  - [Skript einrichten](#skript-einrichten)
-  - [Standard-Browser festlegen](#standard-browser-festlegen)
+  - [WinIBW-Skript installieren und einrichten](#winibw-skript-installieren-und-einrichten)
 - [Benutzung](#benutzung)
 - [Beispieldatensätze in WinIBW](#beispieldatensätze-in-winibw)
 - [Entwicklung](#entwicklung)
 
 ## Installation
 
-Vorausgesetzt werden die WinIBW3 mit K10plus-Skripten und Firefox oder
-Chrome-Browser als [Standard-Browser](#standard-browser-festlegen).
+Vorausgesetzt werden die WinIBW4 mit K10plus-Skripten und Firefox oder
+Chrome-Browser als Standard-Browser.
 
-### WinIBW-Skript installieren
+### WinIBW-Skript installieren und einrichten
 
-1. Einmalig in `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup.js` (erfordert ggf. Windows Admin-Rechte) Folgendes eintragen, damit das Skript beim Neustart von WinWIBW geladen wird:
+1\. Das GitHub-Repository klonen oder herunterladen.
 
-   `pref("ibw.standardScripts.script.80", "resource:/scripts/kxp_cocoda.js");`
+![](img/github-repo.png)
 
-  Dabei muss `80` ggf. durch eine andere fortlaufende Nummer ersetzt werden. Alternativ kann diese Zeile auch in eine eigene Datei `C:\Program Files (x86)\WinIBW30_K10plus\defaults\pref\setup_cocoda.js` eingetragen werden um den Eintrag bei Updates von `setup.js` nicht zu verlieren.
+1.1. Falls es als ZIP-Datei heruntergeladen wurde, muss diese entpackt werden.
 
-2. Das Skript [`scripts/kxp_cocoda.js`](https://github.com/gbv/cocoda-winibw/raw/master/scripts/kxp_cocoda.js) herunterladen und nach `C:\Program Files (x86)\WinIBW30_K10plus\scripts\` kopieren. Statt den Download per Hand durchzuführen können auch folgende Kommandos auf der Powershell ausgeführt werden:
+2\. WinIBW4 öffnen und den Menüpunkt `Script -> Scriptdateien verwalten` aufrufen.
 
-    ~~~
-    Import-Module bitstransfer
-    start-bitstransfer -source https://github.com/gbv/cocoda-winibw/raw/master/scripts/kxp_cocoda.js -destination "C:\Program Files (x86)\WinIBW30_K10plus\scripts"
-    ~~~
+![](img/scriptdateien_1.png)
 
-3. Um die Scripte neu einzulesen, kann man entweder die WinIBW3 neu starten oder die Tastenkombination SHIFT+STRG+ALT+R verwenden.
-Wenn man [Remmina](https://remmina.org/) benutzt, muss man erst die Aktion "Alle Tastatureingaben abfangen" in der Funktionsleiste aktivieren um SHIFT+STRG+ALT+R benutzen zu können.
+2.1 Dort unter "Pfad/URL ergänzen" per "Suchen"-Button auf den `scripts`-Ordner im lokalen Repository navigieren und hinzufügen.
 
+![](img/scriptdateien_2.png)
 
-### Skript einrichten
+2.2 Die Scriptdateien neu laden.
 
-Cocoda-Funktionen Eintrag in der Funktionsleiste hinzufügen (unter *Optionen* →  *Werkzeugleiste anpassen* →  *Kommandos* →  *Standardfunktionen* per Drag & Drop in das Menu *Normdaten* der Funktionsleiste ziehen:
+![](img/scriptdateien_3.png)
 
-* `cocodaOpen`
-* `cocodaMappings`
-* `cocodaShowConcepts`
+3\. Die Scripte-Verwaltung über den Menüpunkt `Script -> Funktionen (Scripte) verwalten" aufrufen.
 
-Zusätzlich können Tastatur-Shortcuts vergeben und die Benennung der Menueinträge (mit Rechtsklick) geändert werden.
+![](img/script-verwaltung_1.png)
 
-![](img/normdaten-menu.png)
+3.1 Links in der Liste der verfügbaren Scripte (vermutlich ganz unten) die Funktion "coli_conc" heraussuchen und auswählen.
 
-### Standard-Browser festlegen
+3.2 Rechts bei "Funktionen auswählen und ordnen" den Punkt "Funktionen auf Schaltflächen" aktivieren.
 
-Cocoda funktioniert nicht mit dem Internet Explorer. Falls dieser Browser noch
-in Windows als Standardbrowser eingerichtet ist, muss stattdessen Chrome oder
-Firefox festgelegt werden:
+3.3 Den Button "Am Ende hinzufügen" anklicken.
 
-1. Öffnen Sie auf Ihrem Computer das Startmenü
-2. Klicken Sie auf Systemsteuerung
-3. Klicken Sie auf Programme -> Standardprogramme -> Standardprogramme festlegen
-4. Wählen Sie links Chrome/Firefox aus
-5. Klicken Sie auf "Dieses Programm als Standard festlegen"
-6. Klicken Sie auf OK
+![](img/script-verwaltung_2.png)
+
+3.4 Mit OK bestätigen. Der Button `coli_conc` erscheint nun unter der Menüleiste.
+
+![](img/coli-conc_button.png)
+
+3.5 Optional können die speziellen Funktionen der coli-conc Integration als einzelne Buttons hinzugefügt werden. Außerdem kann man unter "Informationen zu Funktionen ergänzen" den Buttons eigene Namen geben. Des Weiteren könnten die Buttons auch in die Menüleiste ("Funktionen in Menüs") oder in die Favoritenleiste ("Funktionen in Favoritenliste") eingefügt werden (siehe WinIBW4-Handbuch).
+
+4\. Über den Button `coli_conc` können nun die verschiedenen Funktionen der coli-conc Integration aufgerufen werden.
 
 ## Benutzung
 
-Nach [Einrichtung des Skripts](#skript-einrichten) kann es über die Funktionsleiste aufgerufen werden.
+Nach Einrichtung des Skripts kann es über die Funktionsleiste aufgerufen werden.
 
 *Siehe auch die [Anleitung](tutorial.md)*
 
@@ -83,11 +75,11 @@ Folgende Funktionen sind umgesetzt:
 
 Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/cocoda-winibw/issues)).
 
-![](img/open-select-dialog.png)
+![](img/cocoda_öffnen.png)
 
-![](img/show-concepts-dialog.png)
+![](img/normdaten.png)
 
-![](img/show-mappings-dialog.png)
+![](img/passende_mappings.png)
 
 ## Beispieldatensätze in WinIBW
 
@@ -98,7 +90,7 @@ Weitere Funktionen sind geplant (siehe [Issue-Tracker](https://github.com/gbv/co
 ## Entwicklung
 
 Die WinIBW-Skripte sind in [JavaScript 1.4] geschrieben und nur zusammen mit
-einer K10plus-Installation von WinIBW3 lauffähig. Zum automatischen Testen ist
+einer K10plus-Installation von WinIBW4 lauffähig. Zum automatischen Testen ist
 im Verzeichnis `test` eine rudimentäre WinIBW-Mockup-Umgebung enthalten.
 
     npm install     # Installiert benötigte node-Module
@@ -111,11 +103,12 @@ Verwendung neuerer Sprachkonstrukte erkannt, die in WinIBW zu Fehler führen
 würden. Insbesondere wird nicht unterstützt:
 
 * `const` und `let` \*
-* [Array-Funktionen](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.6) (`forEach`, `map`, `filter`, `find`, ...)
-* ~~Das [`JSON`-Objekt](https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/JSON)~~ wurde über einen Polyfill hinzugefügt.
+* [Array-Funktionen](https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.6) (`forEach`, `map`, `filter`, `find`, ...) (können per [Polyfill] benutzt werden)
+* ~~Das [`JSON`-Objekt](https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/JSON)~~ wurde über einen [Polyfill] hinzugefügt
 
 \*: Dies hat insbesondere Auswirkungen auf den Scope der definierten Variablen. `const` und `let` haben block scope, während `var` function scope hat. Für Details dazu: [You Don't Know JS: Scope & Closures - Chapter 3: Function vs. Block Scope](https://github.com/getify/You-Dont-Know-JS/blob/master/scope%20%26%20closures/ch3.md).
 
 Änderungen sollten zunächst auf dem `dev` Branch getätigt werden.
 
 [JavaScript 1.4]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/New_in_JavaScript/1.4
+[Polyfill]: https://github.com/gbv/cocoda-winibw/wiki/JavaScript-Polyfills
