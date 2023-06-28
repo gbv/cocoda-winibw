@@ -1,6 +1,36 @@
 // JSON polyfill
 if(!JSON)var JSON={parse:function(sJSON){return eval("("+sJSON+")")},stringify:function(){function i(r){return t[r]||"\\u"+(r.charCodeAt(0)+65536).toString(16).substr(1)}var f=Object.prototype.toString,a=Array.isArray||function(r){return"[object Array]"===f.call(r)},t={'"':'\\"',"\\":"\\\\","\b":"\\b","\f":"\\f","\n":"\\n","\r":"\\r","\t":"\\t"},c=/[\\"\u0000-\u001F\u2028\u2029]/g;return function r(t){if(null==t)return"null";if("number"==typeof t)return isFinite(t)?t.toString():"null";if("boolean"==typeof t)return t.toString();if("object"==typeof t){if("function"==typeof t.toJSON)return r(t.toJSON());if(a(t)){for(var n="[",e=0;e<t.length;e++)n+=(e?", ":"")+r(t[e]);return n+"]"}if("[object Object]"===f.call(t)){var o=[];for(var u in t)t.hasOwnProperty(u)&&o.push(r(u)+": "+r(t[u]));return"{"+o.join(", ")+"}"}}return'"'+t.toString().replace(c,i)+'"'}}()}; // eslint-disable-line
 
+// Array .map and .find polyfills adjusted from https://medium.com/nerd-for-tech/polyfill-for-array-map-filter-and-reduce-e3e637e0d73b
+Array.prototype.map = function (callbackFn) {
+  var arr = []
+  for (var i = 0; i < this.length; i++) {
+    arr.push(callbackFn(this[i], i, this))
+  }
+  return arr
+}
+// Array.find polyfill from https://vanillajstoolkit.com/polyfills/arrayfind/
+Array.prototype.find = function (callback) {
+  if (this == null) {
+    throw new TypeError("\"this\" is null or not defined")
+  }
+  var o = Object(this)
+  var len = o.length >>> 0
+  if (typeof callback !== "function") {
+    throw new TypeError("callback must be a function")
+  }
+  var thisArg = arguments[1]
+  var k = 0
+  while (k < len) {
+    var kValue = o[k]
+    if (callback.call(thisArg, kValue, k, o)) {
+      return kValue
+    }
+    k++
+  }
+  return undefined
+}
+
 // Required utility functions copied from https://winibw.gbv.de/update_v4/scripts/kxp_public.js
 function __zdbGetExpansionFromP3VTX__cocoda(){
   var satz = application.activeWindow.getVariable("P3VTX")
@@ -55,6 +85,37 @@ for(var key in cocodaMsg) {
   cocodaMsg[key] = cocodaMsg[key].replace("ä",String.fromCharCode(0xE4))
   cocodaMsg[key] = cocodaMsg[key].replace("ö",String.fromCharCode(0xF6))
   cocodaMsg[key] = cocodaMsg[key].replace("ü",String.fromCharCode(0xFC))
+}
+
+/**
+ * Offers a selection of available coli-conc functions.
+ */
+// eslint-disable-next-line no-unused-vars
+function coli_conc() {
+  var prompter = utility.newPrompter()
+  var functions = [
+    {
+      title: cocodaMsg.openTitle,
+      fn: cocodaOpen
+    },
+    {
+      title: cocodaMsg.listConceptsTitle,
+      fn: cocodaShowConcepts
+    },
+    {
+      title: cocodaMsg.listMappingsTitle,
+      fn: cocodaMappings
+    }
+  ]
+  var reply = prompter.select("coli-conc Funktionen", "Test", functions.map(function (f) { return f.title }).join("\n"))
+  if (reply) {
+    var result = functions.find(function (f) {
+      return f.title === reply
+    })
+    if (result) {
+      result.fn()
+    }
+  }
 }
 
 function __cocodaConceptLine(concept, scheme) {
