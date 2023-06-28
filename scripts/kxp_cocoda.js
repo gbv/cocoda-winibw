@@ -36,6 +36,8 @@ var cocodaBase = "https://coli-conc.gbv.de/cocoda/app/"
 var cocodaApiBase = "https://coli-conc.gbv.de/api/"
 var cocodaOpenAlwaysShowChoice = false
 var cocodaMsg = {
+  coliConcFunctionsTitle: "coli-conc Funktionen",
+  coliConcFunctionsText: "Die coli-conc Integration bietet folgende Funktionen:",
   missingConceptsTitle: "Keine Normdaten gefunden",
   missingConcepts: "Im aktuellen Datensatz konnten keine Normdaten gefunden werden!",
   listConceptsTitle: "Im aktuellen Datensatz gefundene Normdaten",
@@ -74,7 +76,7 @@ function coli_conc() {
       fn: cocodaMappings
     }
   ]
-  var reply = prompter.select("coli-conc Funktionen", "Test", functions.map(function (f) { return f.title }).join("\n"))
+  var reply = prompter.select(cocodaMsg.coliConcFunctionsTitle, cocodaMsg.coliConcFunctionsText, functions.map(function (f) { return f.title }).join("\n"))
   if (reply) {
     var result = functions.find(function (f) {
       return f.title === reply
